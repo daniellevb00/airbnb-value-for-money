@@ -4,7 +4,7 @@ __Which cities in Europe have the best quality-price ratio ('value for money') i
 
 ## Motivation
 
-We think this question is valuable to research as those who have limited financial means (such as students like us) would like to have the best quality accommodations for the lowest price that fits their budget. With the results of our analysis, we can form recommendations for this group regarding which European cities to visit, thereby better meeting the needs of this customer base and faciliating a more efficient search for listings when on the Airbnb site. 
+By diving into this research question, recommendations can be formed on which European city to visit when being on a budget. These recommendations are of particular importance to those who have limited financial means, such as students. The results of our analysis can be utilised for the facilitation of this consumer base in terms of a more efficient search for listings when on the Airbnb site. Thus, the value of our projects lies in helping the individuals, who might not be able to book a holiday without this knowledge, to search for suitable accomodations and enjoy a holiday.
 
 ## Data
 
