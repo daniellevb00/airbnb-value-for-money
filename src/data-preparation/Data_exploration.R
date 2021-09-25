@@ -39,7 +39,6 @@ price_quality_ratio <- price_quality_ratio %>%
          rev_accuracy = review_scores_accuracy,
          rev_comm = review_scores_communication,
          rev_clean = review_scores_cleanliness,
-         rev_accuracy = review_scores_accuracy,
          rev_location = review_scores_location,
          rev_value = review_scores_value,
          rev_checkin = review_scores_checkin,
@@ -136,12 +135,12 @@ ggplot(meanreview_bypriceroom,aes(x=price,y=meanRating,color=room_type))+geom_po
 #add.code# 
 
 ##5: Data exploration## 
-summary(cleaned_pq_ratio)
+summary(pq_ratio)
 #SOME SUMMARY STATISTICS
 #Average overall rating per price class 
-overallrating_price<-cleaned_pq_ratio%>%group_by(price)%>%summarize(mean_rating=mean(rev_rating)) 
+overallrating_price<-pq_ratio%>%group_by(price)%>%summarize(mean_rating=mean(rev_rating)) 
 #Average review scores per price class
-cleaned_pq_ratio%>%group_by(price)%>%summarize(mean_accuracy=mean(rev_accuracy),
+pq_ratio%>%group_by(price)%>%summarize(mean_accuracy=mean(rev_accuracy),
                                                mean_comm=mean(rev_comm),
                                                mean_clean=mean(rev_clean),
                                                mean_location=mean(rev_location),
