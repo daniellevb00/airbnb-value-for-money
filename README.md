@@ -1,10 +1,11 @@
 # Assessing AirBnB's value-for-money
 
-__Which cities in Europe have the best quality-price ratio ('value for money') in terms of Airbnb listings?__
+__Which capital cities in Europe have the best quality-price ratio ('value for money') in terms of Airbnb listings?__
 
 ## Motivation
 
-We think this question is valuable to research as those who have limited financial means (such as students like us) would like to have the best quality accommodations for the lowest price that fits their budget. With the results of our analysis, we can form recommendations for this group regarding which European cities to visit, thereby better meeting the needs of this customer base and faciliating a more efficient search for listings when on the Airbnb site. 
+The last few years Airbnb has grown tremendously with 10% in the last two years in Europe (Vansteeland, 2021). Throughout Europe people use Airbnb to book houses for their holiday, city trips or business trips. With the growth of Airbnb the prices of the platform have also increased. For people with limited financial resources, students for example, it is therefore harder to look for a nice accommodation for a good price. It is therefore useful to research the question stated above. This analysis can be very valuable for people who have limited financial resources to know which accommodations are the best price quality, so that it is possible for them to go on a holiday that fits their budget. Besides people with limited financial resources, it is also useful for Airbnb providers to know which factors influence the quality-price ratio so they can focus on certain amenities. With the results of our multiple regression analysis, we can form recommendations for this group regarding which European capital cities to visit, thereby better meeting the needs of this customer base based on the quality-price ratio and facilitating a more efficient search for listings when on the Airbnb site. This analysis also provides landlords from Airbnb houses with a list of amenities which influence the quality-price ratio, so they know on which amenities they can focus. The data will be available on a repository on Github, which makes the data accessible for other people who are potentially interested in the conclusions of the analysis. 
+
 
 ## Data
 
@@ -14,8 +15,11 @@ AirBnB data used available at [Inside AirBnB](http://insideairbnb.com/get-the-da
 
 ## Method and results
 
-1. Introduce and motivate your chosen method, and explain how it contribtues to solving the research question/business problem.
-2. Summarize your results concisely. Make use of subheaders where appropriate. 
+*Method*
+The method which will be used is a multiple regression analysis. This will be used to determine the correlation between the dependent variable and the independent variable. The independent variables are based on the mostly used amenities on Airbnb. A list of those amenities is provided in the repository. A multiple regression analysis will give us the amenities which have a significant effect on the price quality ratio and the size of the effect. This will give people the right amenities to look for in order to find houses on Airbnb with high price-quality ratios and give landlords the amenities to focus on. 
+
+*Results*
+
 
 ## Repository overview
 
