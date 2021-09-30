@@ -2,8 +2,6 @@
 ###Data exploration - InsideAirbnb###
 ###Research question: Which cities in Europe have the best quality-price ratio ('value-for-money') in terms of Airbnb listings?### 
 
-##READ DATA EXPLORATION TUTORIAL IN R##
-
 #ANALYSIS FOR AMSTERDAM
 
 
@@ -11,7 +9,6 @@
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
-
 
 ##1: Loading and inspecting data
 #Load: Listing data
@@ -55,6 +52,7 @@ lapply(price_quality_ratio, class)
 #Correcting datatypes
 price_quality_ratio$list_name <- as.character(price_quality_ratio$list_name)
 price_quality_ratio$price <- as.numeric(price_quality_ratio$price)
+class(price_quality_ratio$price)
 
 
 #FILTER VERB
