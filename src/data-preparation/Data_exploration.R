@@ -4,7 +4,6 @@
 
 #ANALYSIS FOR AMSTERDAM
 
-
 ##0: Libraries
 library(tidyverse)
 library(dplyr)
@@ -24,11 +23,12 @@ head(listings)
 #Narrowing down the data to what we like to focus on
 #FILTERING COLUMNS
 #Keeping a set of columns, dropping the rest
-cols_to_keep <- c('id', 'name', 'host_id', 'neighbourhood_cleansed', 'room_type','accommodates', 'price','review_scores_rating','review_scores_accuracy','review_scores_cleanliness','review_scores_checkin','review_scores_communication', 'review_scores_location', 'review_scores_value','reviews_per_month','number_of_reviews')
+cols_to_keep <- c('id', 'name', 'host_id', 'neighbourhood_cleansed', 'room_type','accommodates', 'price','amenities', 'review_scores_rating','review_scores_accuracy','review_scores_cleanliness','review_scores_checkin','review_scores_communication', 'review_scores_location', 'review_scores_value','reviews_per_month','number_of_reviews')
 price_quality_ratio<-listings[,which(colnames(listings)%in%cols_to_keep)]
 head(price_quality_ratio) 
-ncol(price_quality_ratio) #we retain only 16 columns
+ncol(price_quality_ratio) #we retain only 17 columns
 colnames(price_quality_ratio)
+View(price_quality_ratio)
 
 #Renaming columns (clarity, shorter)
 price_quality_ratio <- price_quality_ratio %>%
@@ -44,26 +44,58 @@ price_quality_ratio <- price_quality_ratio %>%
          n_reviews_month = reviews_per_month,
          list_name = name)
 
+#splitting column 'amenities' for each amenity
+View(price_quality_ratio)
+#first, clean up the amenities column to prevent errors in splitting columns
+price_quality_ratio$amenities<-gsub('\\[', '',price_quality_ratio$amenities)
+price_quality_ratio$amenities<-gsub('\\]', '',price_quality_ratio$amenities)
+price_quality_ratio$amenities<-gsub('\\"', '',price_quality_ratio$amenities)
+price_quality_ratio$amenities<-gsub('\\"', '',price_quality_ratio$amenities)
+price_quality_ratio$amenities<-gsub(',', ';',price_quality_ratio$amenities)
+price_quality_ratio$amenities<-as.character(price_quality_ratio$amenities)
+price_quality_ratio<-price_quality_ratio%>%filter(price_quality_ratio$amenities!='') #filtered out listings where amenities ='' (which solved the problem)
+#NOW FIXED-> ERROR: this last line with pivot_wider returns error: column 211 must be named (tibble column names can't be empty)
+head(price_quality_ratio$amenities)
 
-##3: Cleaning the data
+#then, split the columns
+pq_ratio_split <- price_quality_ratio %>%
+  separate_rows(amenities, sep = ";") %>%
+  replace_na(list(amenities = "no_amenities")) %>%
+  mutate(amenities_logical = TRUE) %>%
+  pivot_wider(names_from = amenities,
+              values_from = amenities_logical,
+              values_fill = list(amenities_logical = FALSE),
+              names_repair='unique')
+nrow(pq_ratio_split)
+View(pq_ratio_split)
+
+#then, create a subset of the dataset with only the columns we want to keep; which amenities do we want to research? 
+#e.g. this list based on what''s on the Airbnb site: kitchen, heating, air conditioning, washer, dryer, wifi, breakfast, indoor fireplace, iron, hair dryer, dedicated workspace, TV, crib, high chair, smoke alarm, carbon monoxide alarm, ski-in/ski-out, beachfront, waterfront
+cols_to_keep1 <- c('id','host_id', 'neighbourhood', 'room_type','accommodates', 'price', 'Kitchen','Heating', 'Air conditioning', 'Washer', 'Dryer', 'Wifi', 'Breakfast', 'Indoor fireplace','Iron','Hair dryer','Dedicated workspace','TV', 'Crib','High chair','Smoke alarm', 'Carbon monoxide alarm', 'Ski-in/Ski-out', 'Beachfront', 'Waterfront', 'rev_rating','rev_accuracy','rev_clean','rev_checkin','rev_comm', 'rev_location', 'rev_value','n_reviews_month','n_reviews')
+pq_ratio_split2<-pq_ratio_split[,which(colnames(pq_ratio_split)%in%cols_to_keep1)]
+View(pq_ratio_split2)#cols_to_keep1 didn't work for all variables as some may be named slightly different (ADJUST THIS!!)
+#or instead make a correlation matrix and look at the correlations between the amenities and the price or quality (reviews), and look which ones are the highest correlated (these may be the most interesting to look at for our analysis!)
+
+
+
+##3: Cleaning the data (UPDATE: update dataset names from here on as new code was added before!)
 #CHECKING DATATYPES OF ALL COLUMNS
-lapply(price_quality_ratio, class)
+lapply(pq_ratio_split, class)
 
 #Correcting datatypes
 price_quality_ratio$list_name <- as.character(price_quality_ratio$list_name)
-price_quality_ratio$price <- as.numeric(price_quality_ratio$price)
+price_quality_ratio$price<-as.numeric(gsub('\\$','',price_quality_ratio$price)) #remove the dollar sign such that price doesn't introduce ERRORS anymore
 class(price_quality_ratio$price)
-
 
 #FILTER VERB
 #Cleaning up the dataset, removing missing/0 values. 
-cleaned_pq_ratio<-price_quality_ratio%>%filter(price != '$0.00') #removing listings with price=$0.00
+cleaned_pq_ratio<-price_quality_ratio%>%filter(price != '0.00') #removing listings with price=$0.00
 cleaned_pq_ratio<-cleaned_pq_ratio%>%filter(n_reviews!=0) #removing listings with 0 reviews
 #maybe 1 review is still not representative of the quality of the listing? (THINK ABOUT THIS!)
 
 #all 7 categories of the review must be filled in (the value for one of the categories can't be 0.00)
 cleaned_pq_ratio<-cleaned_pq_ratio%>%filter(rev_rating != 0.00, rev_clean !=0.00, rev_accuracy !=0.00, rev_comm !=0.00, rev_location !=0.00,rev_value !=0.00) #when rev_rating = 0.00, all other ratings for all other categories were NA so this data isnt useable -> now the review columns don't contain NA values anymore either. 
-
+View(cleaned_pq_ratio)
 
 #RANGE CONSTRAINTS
 #Checking whether the star ratings do really fall between 1 and 5
@@ -110,7 +142,6 @@ cleaned_pq_ratio%>%count(list_name,host_id,price)%>%filter(n>1) #some list names
 #Arranging the dataset on the basis of price
 pq_ratio<-cleaned_pq_ratio%>%arrange(price) 
 
-
 #MUTATE VERB
 #Creating a new column for the average star rating based on the 7 categories
 pq_ratio<-pq_ratio%>%mutate(review = ((rev_rating+rev_accuracy+rev_clean+rev_checkin+rev_comm+rev_location+rev_value)/7))
@@ -150,20 +181,6 @@ pq_ratio%>%group_by(price)%>%summarize(mean_accuracy=mean(rev_accuracy),
 
 #Visualize using plot()
 
-##6: Adding other datasets## (not needed, only use the listings set for other cities in europe)
-#Load: Review data (not sure if needed, only displays specific review comments)
-reviews<-read.csv('Reviews.gz')
-#Inspect
-View(reviews)
-summary(reviews)
-head(reviews)
-
-#Load: Calendar data 
-calendar<-read.csv('Calendar.gz') #not really needed either, all important info is already in the listings set.
-#Inspect
-View(calendar)
-summary(calendar)
-head(calendar)
 
 
 
