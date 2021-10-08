@@ -92,17 +92,13 @@ df1_split <- df1 %>%
 nrow(df1_split)
 View(df1_split)
 
-
+#trying to solve pivot_wider issue here (hasn't worked yet)
 df1_split[,grepl('stove',names(df1_split))]
-
-install.packages('writexl')
 library(writexl)
 write_xlsx(df1_split, "C:\\Users\\danie\\OneDrive\\Documents\\Repositories\\dPREP-project-team-3\\gen\\data-preparation\\df1_split.xlsx")
-
 l <- sapply(df1_split, is.logical)
 try<-cbind(df1_split[!l], lapply(split(as.list(df1_split[l]), names(df1_split)[l]), Reduce, f = `|`))
 View(try1)
-
 
 #now we only keep some of the extra columns (here I just used some I thought were interesting, but look if you find extra ones or like to remove somee! :) 
 #also observe whether the amenities apply to many listings or not, because the data needs to be representative! (in the end you see for example that host_greetings appears only for 1 listing, so we shouldnt include that amenity I think)
@@ -250,7 +246,11 @@ df5_split%>%group_by(price)%>%summarize(mean_accuracy=mean(rev_accuracy),
                                        mean_location=mean(rev_location),
                                        mean_checkin=mean(rev_checkin),
                                        mean_value=mean(rev_value))
+#...
 
+## STEP 5: EXPORTING CLEANED DATASET FOR ANALYSIS
+#For now, export what we got although the amenity columns aren't correct yet
+write.csv(df5_split, "C://Users//danie//OneDrive//Documents//Repositories//dPREP-project-team-3//gen//data-preparation//aggregated_df.csv" ,row.names=FALSE)
 
 
 
