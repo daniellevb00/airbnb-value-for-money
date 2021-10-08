@@ -45,7 +45,7 @@ df1 <- df %>%
          n_reviews = number_of_reviews,
          n_reviews_month = reviews_per_month,
          n_host_listings = host_listings_count,
-         min_nights= minimum_nights,
+         min_nights = minimum_nights,
          max_nights = maximum_nights,
          host_accept_rate = host_acceptance_rate,
          superhost = host_is_superhost)
@@ -84,14 +84,29 @@ df1_split <- df1 %>%
   replace_na(list(amenities = "no_amenities")) %>%
   mutate(amenities_logical = TRUE) %>%
   pivot_wider(names_from = amenities,
+              names_sep =';',
+              names_repair = 'check_unique',
               values_from = amenities_logical,
-              values_fill = list(amenities_logical = FALSE),
-              names_repair='unique')
+              values_fill = list(amenities_logical = FALSE))
+?pivot_wider()
 nrow(df1_split)
 View(df1_split)
+
+
+df1_split[,grepl('stove',names(df1_split))]
+
+install.packages('writexl')
+library(writexl)
+write_xlsx(df1_split, "C:\\Users\\danie\\OneDrive\\Documents\\Repositories\\dPREP-project-team-3\\gen\\data-preparation\\df1_split.xlsx")
+
+l <- sapply(df1_split, is.logical)
+try<-cbind(df1_split[!l], lapply(split(as.list(df1_split[l]), names(df1_split)[l]), Reduce, f = `|`))
+View(try1)
+
+
 #now we only keep some of the extra columns (here I just used some I thought were interesting, but look if you find extra ones or like to remove somee! :) 
 #also observe whether the amenities apply to many listings or not, because the data needs to be representative! (in the end you see for example that host_greetings appears only for 1 listing, so we shouldnt include that amenity I think)
-cols_to_keep1<-c('id','host_id','host_response_time','host_response_rate','host_accept_rate','superhost','n_host_listings','room_type','accommodates','bedrooms','beds','price','min_nights','max_nights','n_reviews','rev_rating','rev_accuracy','rev_clean','rev_checkin','rev_comm','rev_location','rev_value','license','instant_bookable','n_reviews_month', 'Carbon monoxide alarm','Fire extinguisher','Smoke alarm','Security cameras on property','First aid kit','Smart lock','Private entrance','Wifi','Hair dryer','Dryer','Coffee maker','Heating','TV','Breakfast','Refrigerator','Hot water','Iron','Bed linens','Oven','Stove','Kitchen','Patio or balcony','Waterfront','Lake access','Free street parking','Host greets you')
+cols_to_keep1<-c('id','host_id','host_response_time','host_response_rate','host_accept_rate','superhost','n_host_listings','room_type','accommodates','bedrooms','beds','price','min_nights','max_nights','n_reviews','rev_rating','rev_accuracy','rev_clean','rev_checkin','rev_comm','rev_location','rev_value','license','instant_bookable','n_reviews_month', 'Carbon monoxide alarm','Fire extinguisher','Smoke alarm','Security cameras on property','First aid kit','Smart lock','Private entrance','Wifi','Hair dryer','Dryer','Coffee maker','Heating','TV','Breakfast','Refrigerator','Hot water','Iron','Bed linens','Oven','Stove','Kitchen','Kitchen','Patio or balcony','Waterfront','Lake access','Free street parking','Host greets you')
 df2_split<-df1_split[,which(colnames(df1_split)%in%cols_to_keep1)]
 View(df2_split) #not sure if really all variables are included as some may be named slightly different such that I missed them
 head(df2_split)
@@ -174,8 +189,8 @@ sapply(df3_split, class)
 
 #Filter for missings/0 values 
 df4_split<-df3_split%>%filter(price != '0') #removing listings with price=$0.00
+df4_splt<-df4_split%>%filter(n_reviews !=0) #exclude listings with no reviews to provide more accurate estimates (listings with at least one review are said to be already closer to the equilibrium price, which may be important here!)
 View(df4_split)
-#df4_split<-df4_split%>%filter(n_reviews!=0) -> idk if we still need this line. 
 #df4_split<-df4_split%>%filter(rev_rating != 0.00, rev_clean !=0.00, rev_accuracy !=0.00, rev_comm !=0.00, rev_location !=0.00,rev_value !=0.00) #when rev_rating = 0.00, all other ratings for all other categories were NA so this data isnt useable -> now the review columns don't contain NA values anymore either. 
 
 # Checking range constraints: do star ratings really fall between 1-5? 
