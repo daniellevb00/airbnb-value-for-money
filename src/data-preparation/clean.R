@@ -10,6 +10,7 @@ library(tidyverse)
 library(dplyr)
 library(ggplot2)
 library(readr)
+library(stringr)
 
 # Loading the data (from the data folder)
 setwd("C:/Users/danie/OneDrive/Documents/Repositories/dPREP-project-team-3/data")
@@ -61,25 +62,80 @@ df1$host_response_time[df1$host_response_time=='N/A'] <- NA
 df1$host_response_rate[df1$host_response_rate=='N/A'] <- NA
 df1$host_accept_rate[df1$host_accept_rate=='N/A'] <- NA
 
-#Splitting the amenities column for each amenity using pivot_wider() 
-head(df1$amenities)
+#We now want to create separate columns for each amenity that we want to include in our analysis 
 #other additions to attribute categories we now identify = 
 #Safety attributes = fire extinguisher, smoke alarm, security cameras on property, first aid kit, carbon monoxide alarm, smart lock, private entrance
 #Extra comfort attributes = wifi, hair dryer, cofee maker, heating, TV, breakfast, refrigerator, hot water, dryer, iron, bed linens, oven, stove, kitchen
 #Space attributes = patio or balcony, waterfront, lake access, free street parking
 #Host attributes = host greets you
-#first, clean up the amenities column to prevent errors in splitting columns
-df1$amenities<-gsub('\\[', '',df1$amenities)
-df1$amenities<-gsub('\\]', '',df1$amenities)
-df1$amenities<-gsub('\\"', '',df1$amenities)
-df1$amenities<-gsub('\\"', '',df1$amenities)
-df1$amenities<-gsub(',', ';',df1$amenities)
-df1$amenities<-as.character(df1$amenities)
-df1<-df1%>%filter(df1$amenities!='') #filtered out listings where amenities ='' (which solved the problem)
-#NOW FIXED-> ERROR: this last line with pivot_wider returns error: column 211 must be named (tibble column names can't be empty)
 head(df1$amenities)
-#then, split the columns
-df1_split <- df1 %>%
+df2<-df1 #first copy the dataset under another name
+#Now first clean up the amenities column to make it easier to extract amenities from 
+df2$amenities<-gsub('\\[', '',df2$amenities) #remove the list brackets
+df2$amenities<-gsub('\\]', '',df2$amenities)
+df2$amenities<-gsub('\\"', '',df2$amenities) #remove the ''
+df2$amenities<-gsub('\\"', '',df2$amenities)
+df2$amenities<-gsub(',', ';',df2$amenities) #replace , by ; 
+df2$amenities<-gsub(' ','', df2$amenities) #remove the whitespace
+df2<-df2%>%filter(df1$amenities!='') #filtered out listings where amenities ='' (which resolved the error we previously got)
+df2$amenities<-as.character(df2$amenities)
+head(df2$amenities)
+df2<-df2%>%mutate(amenities_lower=str_to_lower(amenities)) #now change the amenity names to lowercase (place these into a new column)
+head(df2$amenities_lower)
+#now we don't need the old amenities column anymore, so we can remove it
+df3<-df2%>%select(-amenities)
+View(df3)
+
+### START METHOD 1: IFELSE/GREPL ###
+#Method 1 for amenity columns: construct them using ifelse and grepl combined (such that we dont have to use pivot_wider())
+#For now I just used some interesting amenities (we may need to adjust these: add/remove some, based on how much they're used etc or signficance effect on the price for an interesting analysis)
+head(df3$amenities_lower)
+#1: SPACE ATTRIBUTES
+df3$balcony<-ifelse(grepl('balcony',df3$amenities_lower),1,0)
+df3$lake_access<-ifelse(grepl('lakeaccess',df3$amenities_lower),1,0)
+df3$waterfront<-ifelse(grepl('waterfront',df3$amenities_lower),1,0)
+df3$free_parking<-ifelse(grepl('freeparking',df3$amenities_lower),1,0)
+df3$private_entry<-ifelse(grepl('privateentrance',df3$amenities_lower),1,0)
+
+#2: QUALITY ATTRIBUTES
+#many the star ratings columns already included
+
+#3: FREEBIES ATTRIBUTES
+df3$kitchen <- ifelse(grepl('kitchen', df3$amenities_lower),1,0)
+df3$oven<-ifelse(grepl('oven',df3$amenities_lower),1,0)
+df3$stove<-ifelse(grepl('stove',df3$amenities_lower),1,0)
+df3$wifi<-ifelse(grepl('wifi',df3$amenities_lower),1,0)
+df3$fridge<-ifelse(grepl('refrigerator',df3$amenities_lower),1,0)
+df3$iron<-ifelse(grepl('iron',df3$amenities_lower),1,0)
+df3$bed_linens<-ifelse(grepl('bedlinens',df3$amenities_lower),1,0)
+df3$tv<-ifelse(grepl('tv',df3$amenities_lower),1,0)
+df3$dryer<-ifelse(grepl('dryer',df3$amenities_lower),1,0)
+df3$coffee_maker<-ifelse(grepl('coffeemaker',df3$amenities_lower),1,0)
+df3$heating<-ifelse(grepl('heating',df3$amenities_lower),1,0)
+
+#4: HOST QUALITY ATTRIBUTES
+df3$host_greet<-ifelse(grepl('hostgreetsyou',df3$amenities_lower),1,0)
+#others are mainly already the dataset itself
+
+#5: SAFETY ATTRIBUTES
+df3$fire_extinguisher<-ifelse(grepl('fireextinguisher',df3$amenities_lower),1,0)
+df3$smoke_alarm<-ifelse(grepl('smokealarm',df3$amenities_lower),1,0)
+df3$security_cameras<-ifelse(grepl('securitycameras',df3$amenities_lower),1,0)
+df3$carbon_monoxide_alarm<-ifelse(grepl('carbonmonoxidealarm',df3$amenities_lower),1,0)
+df3$smart_lock<-ifelse(grepl('smartlock',df3$amenities_lower),1,0)
+class(df3$smart_lock) #now the columns are seen as numerics, we need to change this into logicals
+
+#after generating all necessary amenities columns we can remove the amenities_lower column for the dataset
+#df4<-df3%>%select(-amenities_lower)
+df4<-df3 #fow now, as long as the amenities selection isn't finalized
+
+### END METHOD 1: IFELSE/GREPL  ###
+
+
+
+### START METHOD 2: PIVOT_WIDER() ###
+#Method 2 for amenity columns: using pivot_wider() --> WARNING: doesn't work correctly yet so don't run (instead the previous method works!!): that's why i put it in comments
+#df1_split <- df1 %>%
   separate_rows(amenities, sep = ";") %>%
   replace_na(list(amenities = "no_amenities")) %>%
   mutate(amenities_logical = TRUE) %>%
@@ -88,21 +144,16 @@ df1_split <- df1 %>%
               names_repair = 'check_unique',
               values_from = amenities_logical,
               values_fill = list(amenities_logical = FALSE))
-?pivot_wider()
-nrow(df1_split)
-View(df1_split)
-
-#trying to solve pivot_wider issue here (hasn't worked yet)
+#nrow(df1_split)
+#trying to make pivot_wider work for our amenities column (didn't work yet):
 df1_split[,grepl('stove',names(df1_split))]
-library(writexl)
-write_xlsx(df1_split, "C:\\Users\\danie\\OneDrive\\Documents\\Repositories\\dPREP-project-team-3\\gen\\data-preparation\\df1_split.xlsx")
 l <- sapply(df1_split, is.logical)
 try<-cbind(df1_split[!l], lapply(split(as.list(df1_split[l]), names(df1_split)[l]), Reduce, f = `|`))
 View(try1)
 
 #now we only keep some of the extra columns (here I just used some I thought were interesting, but look if you find extra ones or like to remove somee! :) 
 #also observe whether the amenities apply to many listings or not, because the data needs to be representative! (in the end you see for example that host_greetings appears only for 1 listing, so we shouldnt include that amenity I think)
-cols_to_keep1<-c('id','host_id','host_response_time','host_response_rate','host_accept_rate','superhost','n_host_listings','room_type','accommodates','bedrooms','beds','price','min_nights','max_nights','n_reviews','rev_rating','rev_accuracy','rev_clean','rev_checkin','rev_comm','rev_location','rev_value','license','instant_bookable','n_reviews_month', 'Carbon monoxide alarm','Fire extinguisher','Smoke alarm','Security cameras on property','First aid kit','Smart lock','Private entrance','Wifi','Hair dryer','Dryer','Coffee maker','Heating','TV','Breakfast','Refrigerator','Hot water','Iron','Bed linens','Oven','Stove','Kitchen','Kitchen','Patio or balcony','Waterfront','Lake access','Free street parking','Host greets you')
+cols_to_keep1<-c('id','host_id','host_response_time','host_response_rate','host_accept_rate','superhost','n_host_listings','room_type','accommodates','bedrooms','beds','price','min_nights','max_nights','n_reviews','rev_rating','rev_accuracy','rev_clean','rev_checkin','rev_comm','rev_location','rev_value','license','instant_bookable','n_reviews_month', 'Carbon monoxide alarm','Fire extinguisher','Smoke alarm','Security cameras on property','First aid kit','Smart lock','Private entrance','Wifi','Dryer','Coffee maker','Heating','TV','Refrigerator','Hot water','Iron','Bed linens','Oven','Stove','Kitchen','Kitchen','Patio or balcony','Waterfront','Lake access','Free street parking','Host greets you')
 df2_split<-df1_split[,which(colnames(df1_split)%in%cols_to_keep1)]
 View(df2_split) #not sure if really all variables are included as some may be named slightly different such that I missed them
 head(df2_split)
@@ -122,7 +173,6 @@ df3_split <- df2_split %>%
          smoke_alarm =  'Smoke alarm',
          dryer = 'Dryer',
          private_entrance = 'Private entrance',
-         hair_dryer = 'Hair dryer',
          waterfront = 'Waterfront',
          host_greeting = 'Host greets you'
          )
@@ -142,105 +192,148 @@ df3_split$kitchen<-ifelse(df3_split$kitchen=='TRUE',1,0)
 df3_split$smoke_alarm<-ifelse(df3_split$smoke_alarm=='TRUE',1,0) 
 df3_split$dryer<-ifelse(df3_split$dryer=='TRUE',1,0) 
 df3_split$private_entrance<-ifelse(df3_split$private_entrance=='TRUE',1,0) 
-df3_split$hair_dryer<-ifelse(df3_split$hair_dryer=='TRUE',1,0) 
 df3_split$waterfront<-ifelse(df3_split$waterfront=='TRUE',1,0) 
 df3_split$TV<-ifelse(df3_split$TV=='TRUE',1,0) 
 df3_split$host_greeting<-ifelse(df3_split$host_greeting=='TRUE',1,0) 
 
+#use this for data cleaning in pivot_wider method: adjusting classes
+df4$license<-as.factor(df4$license)
+df4$superhost<-as.factor(df4$superhost)
+df4$instant_bookable<-as.factor(df4$instant_bookable)
+df4$carbon_monoxide_alarm<-as.factor(df4$carbon_monoxide_alarm)
+df4$stove<-as.factor(df4$stove)
+df4$hot_water<-as.factor(df4$hot_water)
+df4$security_cameras<-as.factor(df4$security_cameras)
+df4$wifi<-as.factor(df4$wifi)
+df4$heating<-as.factor(df4$heating)
+df4$fire_extinguisher<-as.factor(df4$fire_extinguisher)
+df4$free_parking<-as.factor(df4$free_parking)
+df4$coffee_maker<-as.factor(df4$coffee_maker)
+df4$kitchen<-as.factor(df4$kitchen)
+df4$smoke_alarm<-as.factor(df4$smoke_alarm)
+df4$dryer<-as.factor(df4$dryer)
+df4$private_entrance<-as.factor(df4$private_entrance)
+df4$TV<-as.factor(df4$TV)
+df4$waterfront<-as.factor(df4$waterfront)
+df4$host_greeting<-as.factor(df4$host_greeting)
+
+### END METHOD 2: PIVOT_WIDER() ###
+
+#(From now on we use the dataset we ended with in method 1: grepl/ifelse, named: df4)
 ## STEP 2: CLEANING DATA
 # Checking datatypes columns and correcting some
-lapply(df3_split, class)
+View(df4)
+lapply(df4, class)
 # Make price numeric
-df3_split$price<-as.numeric(gsub('\\$','',df3_split$price)) #remove the dollar sign such that price doesn't introduce ERRORS anymore
-class(df3_split$price)
+df4$price<-as.numeric(gsub('\\$','',df4$price)) #remove the dollar sign such that price doesn't introduce ERRORS anymore
+class(df4$price)
 # Convert some character variables into factors, e.g. host_response_time, room_type
-df3_split$host_response_time<-as.factor(df3_split$host_response_time)
-class(df3_split$host_response_time)
-df3_split$room_type<-as.factor(df3_split$room_type)
-class(df3_split$room_type)
-# Convert some character variables into numerics, e.g. host_response_rate, host_accept_rate (Should we do this?? )
-# Convert some numeric variables into factors (binary variables should be factors, e.g. all the amenities columns)
-df3_split$license<-as.factor(df3_split$license)
-df3_split$superhost<-as.factor(df3_split$superhost)
-df3_split$instant_bookable<-as.factor(df3_split$instant_bookable)
-df3_split$carbon_monoxide_alarm<-as.factor(df3_split$carbon_monoxide_alarm)
-df3_split$stove<-as.factor(df3_split$stove)
-df3_split$hot_water<-as.factor(df3_split$hot_water)
-df3_split$security_cameras<-as.factor(df3_split$security_cameras)
-df3_split$wifi<-as.factor(df3_split$wifi)
-df3_split$heating<-as.factor(df3_split$heating)
-df3_split$fire_extinguisher<-as.factor(df3_split$fire_extinguisher)
-df3_split$free_parking<-as.factor(df3_split$free_parking)
-df3_split$coffee_maker<-as.factor(df3_split$coffee_maker)
-df3_split$kitchen<-as.factor(df3_split$kitchen)
-df3_split$smoke_alarm<-as.factor(df3_split$smoke_alarm)
-df3_split$dryer<-as.factor(df3_split$dryer)
-df3_split$private_entrance<-as.factor(df3_split$private_entrance)
-df3_split$hair_dryer<-as.factor(df3_split$hair_dryer)
-df3_split$TV<-as.factor(df3_split$TV)
-df3_split$waterfront<-as.factor(df3_split$waterfront)
-df3_split$host_greeting<-as.factor(df3_split$host_greeting)
+df4$host_response_time<-as.factor(df4$host_response_time)
+class(df4$host_response_time)
+df4$room_type<-as.factor(df4$room_type)
+class(df4$room_type)
+# Convert some character variables into numerics, e.g. host_response_rate, host_accept_rate (Should we do this??)
 
-sapply(df3_split, class)
+# Convert some numeric variables into logicals (as they are binary variables)
+# as.logical did change the variables from 0,1 to FALSE, TRUE
+df4$license<-as.logical(df4$license)
+df4$superhost<-as.logical(df4$superhost)
+df4$instant_bookable<-as.logical(df4$instant_bookable)
+# Also convert the created amenities columns from numerics into logicals (also binary variables)
+# as.logical did change the variables from 0,1 to FALSE,TRUE 
+#1: SPACE ATTRIBUTES
+df4$balcony<-as.logical(df4$balcony)
+df4$lake_access<-as.logical(df4$lake_access)
+df4$waterfront<-as.logical(df4$waterfront)
+df4$free_parking<-as.logical(df4$free_parking)
+df4$private_entry<-as.logical(df4$private_entry)
+#2: QUALITY ATTRIBUTES
+#not needed
+
+#3: FREEBRIES ATTRIBUTES
+df4$kitchen<-as.logical(df4$kitchen)
+df4$oven<-as.logical(df4$oven)
+df4$stove<-as.logical(df4$stove)
+df4$wifi<-as.logical(df4$wifi)
+df4$fridge<-as.logical(df4$fridge)
+df4$iron<-as.logical(df4$iron)
+df4$bed_linens<-as.logical(df4$bed_linens)
+df4$tv<-as.logical(df4$tv)
+df4$dryer<-as.logical(df4$dryer)
+df4$coffee_maker<-as.logical(df4$coffee_maker)
+df4$heating<-as.logical(df4$heating)
+
+#4: HOST QUALITY ATTRIBUTES
+df4$host_greet<-as.logical(df4$host_greet)
+
+#5: SAFETY ATTRIBUTES
+df4$fire_extinguisher<-as.logical(df4$fire_extinguisher)
+df4$smoke_alarm<-as.logical(df4$smoke_alarm)
+df4$security_cameras<-as.logical(df4$security_cameras)
+df4$carbon_monoxide_alarm<-as.logical(df4$carbon_monoxide_alarm)
+df4$smart_lock<-as.logical(df4$smart_lock)
+
+sapply(df4, class)
 
 #Filter for missings/0 values 
-df4_split<-df3_split%>%filter(price != '0') #removing listings with price=$0.00
-df4_splt<-df4_split%>%filter(n_reviews !=0) #exclude listings with no reviews to provide more accurate estimates (listings with at least one review are said to be already closer to the equilibrium price, which may be important here!)
-View(df4_split)
-#df4_split<-df4_split%>%filter(rev_rating != 0.00, rev_clean !=0.00, rev_accuracy !=0.00, rev_comm !=0.00, rev_location !=0.00,rev_value !=0.00) #when rev_rating = 0.00, all other ratings for all other categories were NA so this data isnt useable -> now the review columns don't contain NA values anymore either. 
+df5<-df4
+View(df5)
+df5<-df5%>%filter(price != '0') #removing listings with price=$0.00
+df5<-df5%>%filter(n_reviews !='0') #exclude listings with no reviews to provide more accurate estimates (listings with at least one review are said to be already closer to the equilibrium price, which may be important here!)
+#df5<-df5%>%filter(rev_rating != 0.00, rev_clean !=0.00, rev_accuracy !=0.00, rev_comm !=0.00, rev_location !=0.00,rev_value !=0.00) #when rev_rating = 0.00, all other ratings for all other categories were NA so this data isnt useable -> now the review columns don't contain NA values anymore either. 
 
 # Checking range constraints: do star ratings really fall between 1-5? 
 #for rev_rating (passed test)
-breaks<-unique(c(min(df4_split$rev_rating),1,5,max(df4_split$rev_rating))) #wrapped with unique() to omit the error of 'breaks are not unique' message
-ggplot(df4_split,aes(rev_rating))+geom_histogram(breaks=breaks)
+breaks<-unique(c(min(df5$rev_rating),1,5,max(df5$rev_rating))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+ggplot(df5,aes(rev_rating))+geom_histogram(breaks=breaks)
 #for rev_accuracy (passed test)
-breaks<-unique(c(min(df4_split$rev_accuracy),1,5,max(df4_split$rev_accuracy))) #wrapped with unique() to omit the error of 'breaks are not unique' message
-ggplot(df4_split,aes(rev_accuracy))+geom_histogram(breaks=breaks)
+breaks<-unique(c(min(df5$rev_accuracy),1,5,max(df5$rev_accuracy))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+ggplot(df5,aes(rev_accuracy))+geom_histogram(breaks=breaks)
 #for rev_clean (passed test)
-breaks<-unique(c(min(df4_split$rev_clean),1,5,max(df4_split$rev_clean))) #wrapped with unique() to omit the error of 'breaks are not unique' message
-ggplot(df4_split,aes(rev_clean))+geom_histogram(breaks=breaks)
+breaks<-unique(c(min(df5$rev_clean),1,5,max(df5$rev_clean))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+ggplot(df5,aes(rev_clean))+geom_histogram(breaks=breaks)
 #for rev_checkin (passed test)
-breaks<-unique(c(min(df4_split$rev_checkin),1,5,max(df4_split$rev_checkin))) #wrapped with unique() to omit the error of 'breaks are not unique' message
-ggplot(df4_split,aes(rev_checkin))+geom_histogram(breaks=breaks)
+breaks<-unique(c(min(df5$rev_checkin),1,5,max(df5$rev_checkin))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+ggplot(df5,aes(rev_checkin))+geom_histogram(breaks=breaks)
 #for rev_comm (passed test)
-breaks<-unique(c(min(df4_split$rev_comm),1,5,max(df4_split$rev_comm))) #wrapped with unique() to omit the error of 'breaks are not unique' message
-ggplot(df4_split,aes(rev_comm))+geom_histogram(breaks=breaks)
+breaks<-unique(c(min(df5$rev_comm),1,5,max(df5$rev_comm))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+ggplot(df5,aes(rev_comm))+geom_histogram(breaks=breaks)
 #for rev_location (passed test)
-breaks<-unique(c(min(df4_split$rev_location),1,5,max(df4_split$rev_location))) #wrapped with unique() to omit the error of 'breaks are not unique' message
-ggplot(df4_split,aes(rev_location))+geom_histogram(breaks=breaks)
+breaks<-unique(c(min(df5$rev_location),1,5,max(df5$rev_location))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+ggplot(df5,aes(rev_location))+geom_histogram(breaks=breaks)
 #for rev_value (passed test)
-breaks<-unique(c(min(df4_split$rev_value),1,5,max(df4_split$rev_value))) #wrapped with unique() to omit the error of 'breaks are not unique' message
-ggplot(df4_split,aes(rev_value))+geom_histogram(breaks=breaks)
+breaks<-unique(c(min(df5$rev_value),1,5,max(df5$rev_value))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+ggplot(df5,aes(rev_value))+geom_histogram(breaks=breaks)
 
 
 # Checking uniqueness constraints
 #Checking for full duplicates
-duplicated(df4_split)
-sum(duplicated(df4_split)) #0 full duplicates (passed test)
+duplicated(df5)
+sum(duplicated(df5)) #0 full duplicates (passed test)
 #Checking for partial duplicates
-df4_split%>%count(id)%>%filter(n>1) #0 partial duplicates (passed test)
-df4_split%>%count(host_id,price)%>%filter(n>1) #some host-id and price combinations are the same, but no id is the same (so these must be similar but different listings we suppose)
+df5%>%count(id)%>%filter(n>1) #0 partial duplicates (passed test)
+df5%>%count(host_id,price)%>%filter(n>1) #some host-id and price combinations are the same, but no id is the same (so these must be similar but different listings we suppose)
 
 # Cleaning text data: text data already clean!
 
 
 ## STEP 3: DATA WRANGLING 
 # Arranging dataset based on price
-df5_split<-df4_split%>%arrange(price) 
+df6<-df5%>%arrange(price) 
 # Creating new column for average star rating based on the 7 categories
-df5_split<-df5_split%>%mutate(mean_review = ((rev_rating+rev_accuracy+rev_clean+rev_checkin+rev_comm+rev_location+rev_value)/7))
+df6<-df6%>%mutate(mean_review = ((rev_rating+rev_accuracy+rev_clean+rev_checkin+rev_comm+rev_location+rev_value)/7))
 #STATUS: now this variable mean_review contains NA values as then one of the categories = NA so there is no mean.. (fix this?)
-View(df5_split)
+View(df6)
 # (here were some simple plots of the data, maybe we need to add those to the analysis file? )
 
 
 ## STEP 4: DATA EXPLORATION
-summary(df5_split)
+summary(df6)
 #SOME SUMMARY STATISTICS
 #Average overall rating per price class 
-overallrating_price<-df5_split%>%group_by(price)%>%summarize(mean_rating=mean(rev_rating)) 
+overallrating_price<-df6%>%group_by(price)%>%summarize(mean_rating=mean(rev_rating)) 
 #Average review scores per price class
-df5_split%>%group_by(price)%>%summarize(mean_accuracy=mean(rev_accuracy),
+df6%>%group_by(price)%>%summarize(mean_accuracy=mean(rev_accuracy),
                                        mean_comm=mean(rev_comm),
                                        mean_clean=mean(rev_clean),
                                        mean_location=mean(rev_location),
@@ -250,7 +343,7 @@ df5_split%>%group_by(price)%>%summarize(mean_accuracy=mean(rev_accuracy),
 
 ## STEP 5: EXPORTING CLEANED DATASET FOR ANALYSIS
 #For now, export what we got although the amenity columns aren't correct yet
-write.csv(df5_split, "C://Users//danie//OneDrive//Documents//Repositories//dPREP-project-team-3//gen//data-preparation//aggregated_df.csv" ,row.names=FALSE)
+write.csv(df6, "C://Users//danie//OneDrive//Documents//Repositories//dPREP-project-team-3//gen//data-preparation//aggregated_df.csv" ,row.names=FALSE)
 
 
 
