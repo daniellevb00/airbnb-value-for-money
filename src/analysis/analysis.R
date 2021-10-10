@@ -10,13 +10,15 @@
 
 # To research this relation we perform an Linear Regression to determine the relationship between a metric DV (ratio: price) and some IV's which represent the attribute features of 'experiencing a stay at an Airbnb listing'
 # For this we identified different attribute feature categories which are seen as the price determinants, these are based on some columns of the original dataset both also some amenities values which have been transformed into columns using pivot_wider into dummy variables. 
-# The different attribute feature categories
-# 1, Space attributes = room_type (entire home, private room, shared room, hotel), balcony, etc. 
-# 2. Listing quality attributes = number of reviews, review star ratings, etc.
-# 3. Freebies attributes = kitchen, oven, free parking, etc. 
-# 4. Host quality attributes = superhost, host response rate/time, host listings count, license, etc. 
-# 5. Safety attributes = smoke alarm, security camera's, fire extinguisher, carbon monoxide detector, etc.
-# We use OLS = ordinary least squares linear regression to model the linear relation between the response variable and several predictor varaibles. 
+# The different attribute feature categories (which are the price determinants)
+# #1 SPACE ATTRIBUTES = room_type, dedicated workspace, beachfront, waterfront, backyard, patio/balcony, private entrance, lake access. 
+# #2 LISTING QUALITY ATTRIBUTES = number of reviews, mean review rating, (bedrooms, beds??)
+# #3 COMMON LISTING ATTRIBUTES = kitchen, washer, dryer, wifi, TV, microwave, shampoo, iron, hot water, bed linens, coffee maker, refrigerator, hangers, stove, dishwasher, oven, freezer
+# #4 EXTRA ATTRIBUTES LISTING = indoor fireplace, hair dryer, heating, air conditioning, breakfast, pool (but not pool table!), sauna/hot tub, gym, free parking, BBQ
+# #5 HOST QUALITY ATTRIBUTES = superhost, license, host_listings_count, host greets you, host_response_rate, instant bookable
+# #6 CONVENIENCE ATTRIBUTES (children, pets, disabilities) = crib, high chair, pets allowed, elevator, single-level home, baby safety gates, baby bath, changing table, baby monitor
+# #7 SAFETY ATTRIBUTES = carbon monoxide alarm, smoke alarm, fire extinguisher, first-aid kist, smart lock, security cameras
+# We use OLS = ordinary least squares linear regression to model the linear relation between the response variable and several predictor variables. 
 # This is a multiple linear regression model in the form of: Y= b0 + b1X1 + b2X2 + ... + ei, where b0 is the baseline price. 
 
 ## STEP 0: STARTING-UP
@@ -33,8 +35,8 @@ library(stargazer)
 setwd('C://Users//danie//OneDrive//Documents//Repositories//dPREP-project-team-3//gen//data-preparation')
 aggregated<-read.csv('aggregated_df.csv') 
 View(aggregated)
-# For now, we only filter for the columns we're using that already work (amenities columns aren't corrected yet so have to be left out) -> i added amenity carbon_monoxide_alarm to try out because I thought that amenity column was valid
-aggregated1<-aggregated%>%select(id, host_id, superhost, n_host_listings, room_type,price,n_reviews,rev_rating,rev_accuracy,rev_clean,rev_location,rev_comm,rev_checkin, rev_value,license,carbon_monoxide_alarm)
+#check whether all the right columns are included in the next line: I know adjusted it to include all the amenity columns (the analysis in the rest of the script was only including the amenity carbon_dioxide_alarm, not the rest! We need to run the analysis again for all columns we thus want to analyse)
+aggregated1<-aggregated%>%select(id, host_id, superhost, n_host_listings, room_type,price,n_reviews,rev_rating,rev_accuracy,rev_clean,rev_location,rev_comm,rev_checkin, rev_value,license,bedrooms, beds, host_accept_rate, host_response_time, host_response_rate, instant_bookable, balcony, lake_access,waterfront,beachfront, private_entry,workspace,backyard, kitchen, oven, stove, wifi, fridge,iron, bed_linens, tv, dryer, coffee_maker, washer, microwave, hot_water, hangers, dishwasher, freezer, fireplace, heating, hair_dryer, airco, breakfast, pool, sauna, hot_tub, gym, free_parking, bbq, host_greet, crib, high_chair, pets_allowed, elevator, single_level, baby_safety_gates, baby_bath, changing_table, baby_monitor, fire_extinguisher, smoke_alarm, security_cameras, carbon_monoxide_alarm, smart_lock, first_aid)
 View(aggregated1)
 
 ## STEP 1: GENERATING SUMMARY STATISTICS

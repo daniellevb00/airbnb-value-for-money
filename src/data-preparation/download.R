@@ -11,10 +11,10 @@ download_data <- function(url, filename, filepath){ #create a function to downlo
 
 #Downloading the raw listings data for Amsterdam
 #REMEMBER: the filepath is dependent on the location from where your script is called, so the use of absolute directory names should be avoided so that the code remains portable to other computers and work environments!
-donwload_data(url = 'http://data.insideairbnb.com/the-netherlands/north-holland/amsterdam/2021-08-06/data/listings.csv.gz', filename='Listings.csv',filepath='data/')
+download_data(url = 'http://data.insideairbnb.com/the-netherlands/north-holland/amsterdam/2021-09-07/data/listings.csv.gz', filename='Listings.csv',filepath='data/')
 
 #Opening the raw listings data for Amsterdam
-airbnb<-read.table('http://data.insideairbnb.com/the-netherlands/north-holland/amsterdam/2021-08-06/data/listings.csv.gz', sep =',', header=TRUE)
+airbnb<-read.table('http://data.insideairbnb.com/the-netherlands/north-holland/amsterdam/2021-09-07/data/listings.csv.gz', sep =',', header=TRUE)
 
 
 
