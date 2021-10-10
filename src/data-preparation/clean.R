@@ -20,15 +20,17 @@ summary(listings)
 head(listings)
 
 ## STEP 1: DATA TRANSFORMATION
-# For our analysis of question 1: use space and quality attributes
-# General attributes = price, id, host_id
-# Space attributes = room_type (entire home/private room/shared room/hotel), minimum_nights, maximum_nights
-# Listing quality attributes = bedrooms, beds, amenities, number_of_reviews, reviews_per_month, review_scores_rating, review_scores_accuracy, review_scores_cleanliness, review_scores_checkin, review_scores_communication, review_scores_location, review_scores_value, accommodates
-# Host quality attributes = license, host_listings_count, host_is_superhost, host_acceptance_rate, host_response_time, host_response_rate, instant bookable
-# (I didn't use bathrooms as that only returned NA's when loaded)
+# For our analysis of question 1, we use different amenities categories, which are all price determinants. 
+# #1 SPACE ATTRIBUTES = room_type, dedicated workspace, beachfront, waterfront, backyard, patio/balcony, private entrance, lake access. 
+# #2 LISTING QUALITY ATTRIBUTES = number of reviews, mean review rating, (bedrooms, beds??)
+# #3 COMMON LISTING ATTRIBUTES = kitchen, washer, dryer, wifi, TV, microwave, shampoo, iron, hot water, bed linens, coffee maker, refrigerator, hangers, stove, dishwasher, oven, freezer
+# #4 EXTRA ATTRIBUTES LISTING = indoor fireplace, hair dryer, heating, air conditioning, breakfast, pool (but not pool table!), sauna/hot tub, gym, free parking, BBQ
+# #5 HOST QUALITY ATTRIBUTES = superhost, license, host_listings_count, host greets you, host_response_rate, instant bookable
+# #6 CONVENIENCE ATTRIBUTES (children, pets, disabilities) = crib, high chair, pets allowed, elevator, single-level home, baby safety gates, baby bath, changing table, baby monitor
+# #7 SAFETY ATTRIBUTES = carbon monoxide alarm, smoke alarm, fire extinguisher, first-aid kist, smart lock, security cameras
 
 # Filtering columns 
-cols_to_keep <- c('id', 'host_id', 'price', 'room_type','accommodates', 'minimum_nights', 'maximum_nights', 'bedrooms', 'beds', 'amenities','number_of_reviews', 'review_scores_rating','review_scores_accuracy','review_scores_cleanliness','review_scores_checkin','review_scores_communication', 'review_scores_location', 'review_scores_value','reviews_per_month', 'license','host_listings_count','host_is_superhost','host_acceptance_rate','host_response_time','host_response_rate','instant_bookable')
+cols_to_keep <- c('id', 'host_id', 'price', 'room_type', 'bedrooms', 'beds', 'amenities','number_of_reviews', 'review_scores_rating','review_scores_accuracy','review_scores_cleanliness','review_scores_checkin','review_scores_communication', 'review_scores_location', 'review_scores_value','reviews_per_month', 'license','host_listings_count','host_is_superhost','host_acceptance_rate','host_response_time','host_response_rate','instant_bookable')
 df<-listings[,which(colnames(listings)%in%cols_to_keep)]
 head(df) 
 ncol(df) #we keep 27 columns
@@ -46,8 +48,6 @@ df1 <- df %>%
          n_reviews = number_of_reviews,
          n_reviews_month = reviews_per_month,
          n_host_listings = host_listings_count,
-         min_nights = minimum_nights,
-         max_nights = maximum_nights,
          host_accept_rate = host_acceptance_rate,
          superhost = host_is_superhost)
 colnames(df1)
@@ -63,11 +63,6 @@ df1$host_response_rate[df1$host_response_rate=='N/A'] <- NA
 df1$host_accept_rate[df1$host_accept_rate=='N/A'] <- NA
 
 #We now want to create separate columns for each amenity that we want to include in our analysis 
-#other additions to attribute categories we now identify = 
-#Safety attributes = fire extinguisher, smoke alarm, security cameras on property, first aid kit, carbon monoxide alarm, smart lock, private entrance
-#Extra comfort attributes = wifi, hair dryer, cofee maker, heating, TV, breakfast, refrigerator, hot water, dryer, iron, bed linens, oven, stove, kitchen
-#Space attributes = patio or balcony, waterfront, lake access, free street parking
-#Host attributes = host greets you
 head(df1$amenities)
 df2<-df1 #first copy the dataset under another name
 #Now first clean up the amenities column to make it easier to extract amenities from 
@@ -88,19 +83,25 @@ View(df3)
 
 ### START METHOD 1: IFELSE/GREPL ###
 #Method 1 for amenity columns: construct them using ifelse and grepl combined (such that we dont have to use pivot_wider())
-#For now I just used some interesting amenities (we may need to adjust these: add/remove some, based on how much they're used etc or signficance effect on the price for an interesting analysis)
+#(We may still need to add/remove some of the amenities based on their results in their regression analysis; based on their significance level and effect on DV=price)
 head(df3$amenities_lower)
-#1: SPACE ATTRIBUTES
+# #1 = SPACE ATTRIBUTES
+#room_type
 df3$balcony<-ifelse(grepl('balcony',df3$amenities_lower),1,0)
 df3$lake_access<-ifelse(grepl('lakeaccess',df3$amenities_lower),1,0)
 df3$waterfront<-ifelse(grepl('waterfront',df3$amenities_lower),1,0)
-df3$free_parking<-ifelse(grepl('freeparking',df3$amenities_lower),1,0)
 df3$private_entry<-ifelse(grepl('privateentrance',df3$amenities_lower),1,0)
+df3$workspace<-ifelse(grepl('workspace',df3$amenities_lower),1,0)
+df3$backyard<-ifelse(grepl('backyard',df3$amenities_lower),1,0)
+df3$beachfront<-ifelse(grepl('beachfront',df3$amenities_lower),1,0)
 
-#2: QUALITY ATTRIBUTES
-#many the star ratings columns already included
+# #2 = LISTING QUALITY ATTRIBUTES 
+#number of reviews (n_reviews)
+#mean review rating 
+#bedrooms
+#beds
 
-#3: FREEBIES ATTRIBUTES
+# #3 = COMMON LISITNG ATTRIBUTES
 df3$kitchen <- ifelse(grepl('kitchen', df3$amenities_lower),1,0)
 df3$oven<-ifelse(grepl('oven',df3$amenities_lower),1,0)
 df3$stove<-ifelse(grepl('stove',df3$amenities_lower),1,0)
@@ -111,27 +112,59 @@ df3$bed_linens<-ifelse(grepl('bedlinens',df3$amenities_lower),1,0)
 df3$tv<-ifelse(grepl('tv',df3$amenities_lower),1,0)
 df3$dryer<-ifelse(grepl('dryer',df3$amenities_lower),1,0)
 df3$coffee_maker<-ifelse(grepl('coffeemaker',df3$amenities_lower),1,0)
+df3$washer <- ifelse(grepl('washer', df3$amenities_lower),1,0)
+df3$microwave <- ifelse(grepl('microwave', df3$amenities_lower),1,0)
+df3$shampoo <- ifelse(grepl('shampoo', df3$amenities_lower),1,0)
+df3$hot_water <- ifelse(grepl('hotwater', df3$amenities_lower),1,0)
+df3$hangers <- ifelse(grepl('hangers', df3$amenities_lower),1,0)
+df3$dishwasher <- ifelse(grepl('dishwasher', df3$amenities_lower),1,0)
+df3$freezer <- ifelse(grepl('freezer', df3$amenities_lower),1,0)
+
+# #4 = EXTRA ATTRIBUTES LISTINGS
 df3$heating<-ifelse(grepl('heating',df3$amenities_lower),1,0)
+df3$free_parking<-ifelse(grepl('freeparking',df3$amenities_lower),1,0)
+df3$breakfast <- ifelse(grepl('breakfast', df3$amenities_lower),1,0)
+df3$fireplace <- ifelse(grepl('fireplace', df3$amenities_lower),1,0)
+df3$hair_dryer <- ifelse(grepl('hairdryer', df3$amenities_lower),1,0)
+df3$pool <- ifelse(grepl('pool', df3$amenities_lower),1,0) #this one is difficult as we don't want to select pooltable or whirlpool refrigerator e.g... (find a smart way to do this)
+df3$sauna <- ifelse(grepl('sauna', df3$amenities_lower),1,0)
+df3$hot_tub<-ifelse(grepl('hottub',df3$amenities_lower),1,0)
+df3$gym <- ifelse(grepl('gym', df3$amenities_lower),1,0)
+df3$bbq <- ifelse(grepl('bbq', df3$amenities_lower),1,0)
+df3$airco <- ifelse(grepl('airconditioning', df3$amenities_lower),1,0)
 
-#4: HOST QUALITY ATTRIBUTES
-df3$host_greet<-ifelse(grepl('hostgreetsyou',df3$amenities_lower),1,0)
-#others are mainly already the dataset itself
+# #5 = HOST QUALITY ATTRIBUTES
+#superhost
+#license
+#host_listings_count
+#host_response_rate
+#instant_bookable
+df3$greeting_host<-ifelse(grepl('hostgreetsyou',df3$amenities_lower),1,0)
 
-#5: SAFETY ATTRIBUTES
+# #6 = CONVENIENCE ATTRIBUTES (children, pets, disabilities)
+df3$crib <- ifelse(grepl('crib', df3$amenities_lower),1,0)
+df3$high_chair <- ifelse(grepl('highchair', df3$amenities_lower),1,0)
+df3$pets_allow <- ifelse(grepl('petsallowed', df3$amenities_lower),1,0) #only concerns 1 listing.. 
+df3$elevator <- ifelse(grepl('elevator', df3$amenities_lower),1,0) 
+df3$single_level <- ifelse(grepl('singlelevelhome', df3$amenities_lower),1,0) 
+df3$baby_safety_gates <- ifelse(grepl('babysafetygates', df3$amenities_lower),1,0) 
+df3$baby_bath <- ifelse(grepl('babybath', df3$amenities_lower),1,0)
+df3$changing_table <- ifelse(grepl('changingtable', df3$amenities_lower),1,0)
+df3$baby_monitor <- ifelse(grepl('babymonitor', df3$amenities_lower),1,0) 
+
+# #7 = SAFETY ATTRIBUTES 
 df3$fire_extinguisher<-ifelse(grepl('fireextinguisher',df3$amenities_lower),1,0)
 df3$smoke_alarm<-ifelse(grepl('smokealarm',df3$amenities_lower),1,0)
 df3$security_cameras<-ifelse(grepl('securitycameras',df3$amenities_lower),1,0)
 df3$carbon_monoxide_alarm<-ifelse(grepl('carbonmonoxidealarm',df3$amenities_lower),1,0)
 df3$smart_lock<-ifelse(grepl('smartlock',df3$amenities_lower),1,0)
+df3$first_aid <- ifelse(grepl('firstaidkit', df3$amenities_lower),1,0)
 class(df3$smart_lock) #now the columns are seen as numerics, we need to change this into logicals
 
 #after generating all necessary amenities columns we can remove the amenities_lower column for the dataset
-#df4<-df3%>%select(-amenities_lower)
-df4<-df3 #fow now, as long as the amenities selection isn't finalized
+df4<-df3%>%select(-amenities_lower)
 
 ### END METHOD 1: IFELSE/GREPL  ###
-
-
 
 ### START METHOD 2: PIVOT_WIDER() ###
 #Method 2 for amenity columns: using pivot_wider() --> WARNING: doesn't work correctly yet so don't run (instead the previous method works!!): that's why i put it in comments
@@ -241,16 +274,17 @@ df4$superhost<-as.logical(df4$superhost)
 df4$instant_bookable<-as.logical(df4$instant_bookable)
 # Also convert the created amenities columns from numerics into logicals (also binary variables)
 # as.logical did change the variables from 0,1 to FALSE,TRUE 
-#1: SPACE ATTRIBUTES
+# #1: SPACE ATTRIBUTES
 df4$balcony<-as.logical(df4$balcony)
 df4$lake_access<-as.logical(df4$lake_access)
 df4$waterfront<-as.logical(df4$waterfront)
-df4$free_parking<-as.logical(df4$free_parking)
+df4$beachfront<-as.logical(df4$beachfront)
 df4$private_entry<-as.logical(df4$private_entry)
-#2: QUALITY ATTRIBUTES
+df4$workspace<-as.logical(df4$workspace)
+df4$backyard<-as.logical(df4$backyard)
+# #2: LISTING QUALITY ATTRIBUTES
 #not needed
-
-#3: FREEBRIES ATTRIBUTES
+# #3: COMMON LISTING ATTRIBUTES
 df4$kitchen<-as.logical(df4$kitchen)
 df4$oven<-as.logical(df4$oven)
 df4$stove<-as.logical(df4$stove)
@@ -261,17 +295,45 @@ df4$bed_linens<-as.logical(df4$bed_linens)
 df4$tv<-as.logical(df4$tv)
 df4$dryer<-as.logical(df4$dryer)
 df4$coffee_maker<-as.logical(df4$coffee_maker)
+df4$washer<-as.logical(df4$washer)
+df4$microwave<-as.logical(df4$microwave)
+df4$hot_water<-as.logical(df4$hot_water)
+df4$hangers<-as.logical(df4$hangers)
+df4$dishwasher<-as.logical(df4$dishwasher)
+df4$freezer<-as.logical(df4$freezer)
+# #4 EXTRA ATTRIBUTES LISTINGS
+df4$fireplace<-as.logical(df4$fireplace)
 df4$heating<-as.logical(df4$heating)
+df4$hair_dryer<-as.logical(df4$hair_dryer)
+df4$airco<-as.logical(df4$airco)
+df4$breakfast<-as.logical(df4$breakfast)
+df4$pool<-as.logical(df4$pool)
+df4$sauna<-as.logical(df4$sauna)
+df4$hot_tub<-as.logical(df4$hot_tub)
+df4$gym<-as.logical(df4$gym)
+df4$free_parking<-as.logical(df4$free_parking)
+df4$bbq<-as.logical(df4$bbq)
 
-#4: HOST QUALITY ATTRIBUTES
+# #5 HOST QUALITY ATTRIBUTES
 df4$host_greet<-as.logical(df4$host_greet)
+# #6 CONVENIENCE ATTRIBUTES 
+df4$crib<-as.logical(df4$crib)
+df4$high_chair<-as.logical(df4$high_chair)
+df4$pets_allowed<-as.logical(df4$pets_allowed)
+df4$elevator<-as.logical(df4$elevator)
+df4$single_level<-as.logical(df4$single_level)
+df4$baby_safety_gates<-as.logical(df4$baby_safety_gates)
+df4$baby_bath<-as.logical(df4$baby_bath)
+df4$changing_table<-as.logical(df4$changing_table)
+df4$baby_monitor<-as.logical(df4$baby_monitor)
 
-#5: SAFETY ATTRIBUTES
+# #7 SAFETY ATTRIBUTES
 df4$fire_extinguisher<-as.logical(df4$fire_extinguisher)
 df4$smoke_alarm<-as.logical(df4$smoke_alarm)
 df4$security_cameras<-as.logical(df4$security_cameras)
 df4$carbon_monoxide_alarm<-as.logical(df4$carbon_monoxide_alarm)
 df4$smart_lock<-as.logical(df4$smart_lock)
+df4$first_aid<-as.logical(df4$first_aid)
 
 sapply(df4, class)
 
@@ -287,22 +349,22 @@ df5<-df5%>%filter(n_reviews !='0') #exclude listings with no reviews to provide 
 breaks<-unique(c(min(df5$rev_rating),1,5,max(df5$rev_rating))) #wrapped with unique() to omit the error of 'breaks are not unique' message
 ggplot(df5,aes(rev_rating))+geom_histogram(breaks=breaks)
 #for rev_accuracy (passed test)
-breaks<-unique(c(min(df5$rev_accuracy),1,5,max(df5$rev_accuracy))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+breaks<-unique(c(min(df5$rev_accuracy),1,5,max(df5$rev_accuracy))) 
 ggplot(df5,aes(rev_accuracy))+geom_histogram(breaks=breaks)
 #for rev_clean (passed test)
-breaks<-unique(c(min(df5$rev_clean),1,5,max(df5$rev_clean))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+breaks<-unique(c(min(df5$rev_clean),1,5,max(df5$rev_clean))) 
 ggplot(df5,aes(rev_clean))+geom_histogram(breaks=breaks)
 #for rev_checkin (passed test)
-breaks<-unique(c(min(df5$rev_checkin),1,5,max(df5$rev_checkin))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+breaks<-unique(c(min(df5$rev_checkin),1,5,max(df5$rev_checkin))) 
 ggplot(df5,aes(rev_checkin))+geom_histogram(breaks=breaks)
 #for rev_comm (passed test)
-breaks<-unique(c(min(df5$rev_comm),1,5,max(df5$rev_comm))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+breaks<-unique(c(min(df5$rev_comm),1,5,max(df5$rev_comm))) 
 ggplot(df5,aes(rev_comm))+geom_histogram(breaks=breaks)
 #for rev_location (passed test)
-breaks<-unique(c(min(df5$rev_location),1,5,max(df5$rev_location))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+breaks<-unique(c(min(df5$rev_location),1,5,max(df5$rev_location))) 
 ggplot(df5,aes(rev_location))+geom_histogram(breaks=breaks)
 #for rev_value (passed test)
-breaks<-unique(c(min(df5$rev_value),1,5,max(df5$rev_value))) #wrapped with unique() to omit the error of 'breaks are not unique' message
+breaks<-unique(c(min(df5$rev_value),1,5,max(df5$rev_value))) 
 ggplot(df5,aes(rev_value))+geom_histogram(breaks=breaks)
 
 
