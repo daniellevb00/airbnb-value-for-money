@@ -1,46 +1,74 @@
-# Assessing AirBnB's value-for-money
+<p align = 'center' >
+   <img src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_Bélo.svg/2560px-Airbnb_Logo_Bélo.svg.png' width = 640 height = 200 />
+</p>
 
-__Which capital cities in Europe have the best quality-price ratio ('value for money') in terms of Airbnb listings?__
+# Assessing price determinants of AirBnB listings and its reflection on consumers' price-quality ratings 
+_How do the different attribute features influence the listing price? And is the price rationalization well-reflected in consumers' ratings of the price-quality ratio (i.e., the perceived 'value of money')?_
+
+<p align="center">
+  <img src = 'https://media.giphy.com/media/TjkBNCMtRzPHGw6sGt/giphy.gif' width = '280' height = '300' /> 
+  <img src = 'https://media.giphy.com/media/gjUMaVJZh6o8gsD4Wb/giphy.gif', width = '300' height = '330' />
+</p>
 
 ## Motivation
 
-The last few years Airbnb has grown tremendously with 10% in the last two years in Europe (Vansteeland, 2021). Throughout Europe people use Airbnb to book houses for their holiday, city trips or business trips. With the growth of Airbnb the prices of the platform have also increased. For people with limited financial resources, students for example, it is therefore harder to look for a nice accommodation for a good price. It is therefore useful to research the question stated above. This analysis can be very valuable for people who have limited financial resources to know which accommodations are the best price quality, so that it is possible for them to go on a holiday that fits their budget. Besides people with limited financial resources, it is also useful for Airbnb providers to know which factors influence the quality-price ratio so they can focus on certain amenities. With the results of our multiple regression analysis, we can form recommendations for this group regarding which European capital cities to visit, thereby better meeting the needs of this customer base based on the quality-price ratio and facilitating a more efficient search for listings when on the Airbnb site. This analysis also provides landlords from Airbnb houses with a list of amenities which influence the quality-price ratio, so they know on which amenities they can focus. The data will be available on a repository on Github, which makes the data accessible for other people who are potentially interested in the conclusions of the analysis. 
+With Airbnb being the largest accommodation firm in the marketplace, enjoying a remarkable and flexible supply of listings and a record-breaking growth in the number of guests, the platform is recognized as a disruptor for the lodging industry. Aside from its many economic and financial benefits, the value of Airbnb listings is too perceived differently from that of traditional hotels. Namely, consumers engaging in the sharing economy seem to attach more value to the whole experience of their stay (the socialable aspect). The physical and non-physical attributes which are reflected on the price of Airbnb accommodations may play a crucial role on Airbnb guests' decision-making. Thus, the price of Airbnb properties is determined based on the value consumers place on the attributes of Airbnb accommodations. Therefore, examining the price determinants of the nightly listing price is crucial in understanding the factors that drive the growth of the sharing economy. 
 
-
-## Data
-
-AirBnB data used available at [Inside AirBnB](http://insideairbnb.com/get-the-data.html).
-
-![AirBnB Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_Bélo.svg/2560px-Airbnb_Logo_Bélo.svg.png)
+Moreover, it would be interesting the research the mean price-quality ratios for each listings relative to the amentiies its offers to observe whether consumers expectations of a listing of X price are close to being realistic (or whether they argue that the higher listing price is not justified). For instance, from previous research by Liang et al. (2017) we know that hosts awarded a superhost badge post their posts at higher prices, especially when they receive more reviews that are higher ratings: But do consumers too think that superhost actually provide better services? Or is the higher price for the superhost status not justified in terms of price/quality ratings?<img src = 'https://media.giphy.com/media/ZEqoYMLVJNCiEYUrpv/giphy.gif' width = '230' height ='250'/>
 
 ## Method and results
 
-*Method*
-The method which will be used is a multiple regression analysis. This will be used to determine the correlation between the dependent variable and the independent variable. The independent variables are based on the mostly used amenities on Airbnb. A list of those amenities is provided in the repository. A multiple regression analysis will give us the amenities which have a significant effect on the price quality ratio and the size of the effect. This will give people the right amenities to look for in order to find houses on Airbnb with high price-quality ratios and give landlords the amenities to focus on. 
+### Method 
 
-*Results*
+We made use of OLS regression techniques to examine the price determinants of Airbnb accommodations, more specifically the _multiple linear regression model_. Namely, we focused on the relationship between the nightly published rate (metric DV) and some (non-)metric IV's which represent the attribute features of 'experiencing a stay at an Airbnb listing' : Y = b0 + b1X1 + b2X2 + ... + bkXk + ei, where b0 represents the baseline price per a night's stay and X1,X2...,Xk represent the (non-)metric features. Therefore, we identified some attribute feature categories (the price determinants) based on some columns of the original dataset as well as newly generated columns (with values from the 'amenities' variable of the dataset). These different attribute feature categories include: 
 
+Index | Category                   | Columns included
+------|----------------------------|--------------------
+1     | Space attributes           | room type, dedicated workspace, beachfront, waterfront, backyard, patio/balcony, private entrance, lake access
+2     | Listing quality attributes | number of reviews, mean review rating, bedrooms, beds
+3     | Common listing attributes  | kitchen, washer, dryer, wifi, TV, microwave, shampoo, iron, hot water, bed linens, coffee maker, refrigerator, hangers, stove, dishwasher, oven, freezer
+4     | Extra listing attributes   | indoor fireplace, hair dryer, heating, air conditioning, breakfast, pool, sauna, hot tub, gym, free parking, BBQ
+5     | Host quality attributes    | superhost, license, host listings count, host response rate, host response time, instant bookable, host greets you
+6     | Convenience attributes     | crib, high chair, pets allowed, elevator, single-level home, baby safety gates, baby bath, changing table, baby monitor, 
+7     | Safety attributes          | carbon monoxide alarm, smoke alarm, fire extinguisher, first-aid kit, smart lock, security cameras
+<p align="center">
+  <img src = 'https://media.giphy.com/media/gHoJgcYgjalRxouMir/giphy.gif' width = '400' height = '220' /> 
+  <img src = 'https://media.giphy.com/media/PjlpT8M92at7Jy2v5G/giphy.gif', width = '400' height = '220' />
+</p>
 
-## Repository overview
+### Results 
+_Still need to be added_
 
-1. Provide an overview of the directory structure and files. 
-* data/ = stores the raw data. 
-* data_output/ = stores the modified datasets. 
-* documents/ = stores outlines, drafts, other text.
-* fig_output/ = stores graphics from our data. 
-* scripts/ = stores R scripts. 
+## Repository overview 
+An overview of the directory structure and files: 
+* \data = stores the raw data files (unmodified). 
+* \data\legacy = stores old versions of data coded ourselves. 
+* \gen\data-preparation = stores any files generated in data-preparation.
+* \gen\analysis = stores any files generated during analysis. 
+* \gen\paper = stores any files generated for the paper. 
+* \src\data-preparation = stores any source code used for the data anlaysis. 
+* \src\analysis = stores any source code used for the analysis. 
+* \src\paper = stores any source code used for the paper. 
 
 ## Running instructions
+The datasets used for this project are available at [Inside AirBnB](http://insideairbnb.com/get-the-data.html).
+Data cleaning and analysis was done in [RStudio](https://www.rstudio.com/), which is an integrated development environment (IDE) for [R](https://www.r-project.org/). 
 
-1. Explain the potential users how to run/replicate your worklfow. Touch upon, if necessary, the required input data, which (secret) credentials are required (and how to obtain them), which software tools are needed to run the workflow (incl. links to the installation instructions), and how to run the workflow. Make use of subheaders where appropriate. 
+<p align="center">
+  <img src = 'https://media.giphy.com/media/J4JIj5vHSjhHAPy9w5/giphy.gif' width = '340' height = '340' /> 
+</p>
 
 ## More resources
-
-1. Point interested users to any related literature and/or documentation. 
+Some related literature if you are interested in reading more about the topic: 
+* Perez-Sanchez, V. R., Serrano-Estrada, L., Marti, P., & Mora-Garcia, R. T. (2018). The what, where, and why of Airbnb price determinants. Sustainability, 10(12), 4596.
+* Magno, F., Cassia, F., & Ugolini, M. M. (2018). Accommodation prices on Airbnb: effects of host experience and market demand. The TQM Journal.
+* Falk, M., Larpin, B., & Scaglione, M. (2019). The role of specific attributes in determining prices of Airbnb listings in rural and urban locations. International Journal of Hospitality Management, 83, 132-140.
+* Voltes-Dorta, A., & Sánchez-Medina, A. (2020). Drivers of Airbnb prices according to property/room type, season and location: A regression approach. Journal of Hospitality and Tourism Management, 45, 266-275.
+* Tong, B., & Gunter, U. (2020). Hedonic pricing and the sharing economy: How profile characteristics affect Airbnb accommodation prices in Barcelona, Madrid, and Seville. Current Issues in Tourism, 1-20.
+* Barron, K., Kung, E., & Proserpio, D. (2021). The effect of home-sharing on house prices and rents: Evidence from Airbnb. Marketing Science, 40(1), 23-47.
 
 ## Contributors
-
-This is the repository for the course [Data Preparation and Workflow Management](https://dprep.hannesdatta.com) at Tilburg University as part of the Master's program 'Marketing Analytics', used for the team project of group 3. 
+This is a repository for the course [Data Preparation and Workflow Management](https://dprep.hannesdatta.com) at Tilburg University as part of the Master's program 'Marketing Analytics', used for the team project of group 3. 
 
 Members of our team: 
 
