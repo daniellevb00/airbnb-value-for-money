@@ -13,7 +13,8 @@ library(stringr)
 dir.create('../../gen/data-preparation/data')
 
 df_ams5 <- read.csv('../../gen/data-preparation/temp/ams_amenities_dv.csv', as.is = TRUE) 
-df_ams5 <- df_ams5[2:74]
+View(df_ams5)
+df_ams5 <- df_ams5[-1] #remove first index column
 
 ## Data wrangling
 #Arranging dataset based on price

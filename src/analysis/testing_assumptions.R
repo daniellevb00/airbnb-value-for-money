@@ -14,35 +14,34 @@ library(stargazer)
 
 # Load dataset
 ams_complete <- read.csv('../../gen/data-preparation/data/ams_complete.csv')
-ams_complete1 <- ams_complete[2:75]
+ams_complete1 <- ams_complete[-1]
 
 # Select relevant columns
-ams_complete1<-ams_complete%>%select(id, host_id, n_host_listings,  #general information
-                                     rev_rating,rev_accuracy,rev_clean,rev_location,rev_comm,rev_checkin, rev_value,license,mean_review, #review scores
-                                     bedrooms, beds, #bed information
-                                     balcony, lake_access, waterfront, backyard, #space attributes
-                                     room_type,price,n_reviews, #listing quality attributes
-                                     kitchen, wifi, bed_linens, tv, washer, #common listing attributes
-                                     heating, free_parking, breakfast, pool, #extra listing attributes
-                                     superhost, host_accept_rate, greeting_host, #host attributes
-                                     crib, pets_allow, baby_safety_gates, #convenience attributes
-                                    fire_extinguisher, security_cameras, carbon_monoxide_alarm) #safety attributes
+ams_complete2<-ams_complete1%>%select(id, host_id, price, #general information
+                                      rev_rating, rev_accuracy, rev_clean, rev_location, rev_comm, rev_checkin, rev_value, #review scores
+                                      room_type, waterfront, balcony, #space attributes
+                                      n_reviews, mean_review, bedrooms, beds, #listing quality attributes
+                                      kitchen, washer, wifi, tv, coffee_maker, dishwasher, oven, #common listing attributes
+                                      fireplace, airco, gym, hot_tub, free_parking, #extra listing attributes
+                                      superhost, license, n_host_listings, instant_bookable, greeting_host, #host quality attributes
+                                      crib, luggage_dropoff, single_level, changing_table, #convenience attributes
+                                      private_entry, fire_extinguisher, security_cameras, carbon_monoxide_alarm) #safety attributes
+View(ams_complete2)
 
 ## CHECKING ASSUMPTIONS FOR THE FIRST RESEARCH QUESTION LM ##
 # Construct linear model
-bnb_lm1<-lm(price ~ mean_review +
-              bedrooms + beds +
-              balcony + lake_access + waterfront + backyard +
-              room_type +
-              kitchen + wifi + bed_linens + tv + washer +
-              heating + free_parking + breakfast + pool +
-              superhost + greeting_host +
-              crib + baby_safety_gates +
-              fire_extinguisher + security_cameras + carbon_monoxide_alarm,
-            ams_complete1)
+bnb_lm1<-lm(price ~ room_type + waterfront + balcony + 
+              n_reviews + mean_review + bedrooms + beds + 
+              kitchen + washer + wifi + tv + coffee_maker + dishwasher + oven + 
+              fireplace + airco + gym + hot_tub + free_parking +
+              superhost + license + n_host_listings + instant_bookable + greeting_host +
+              crib + luggage_dropoff + single_level + changing_table + 
+              private_entry + fire_extinguisher + security_cameras + carbon_monoxide_alarm, ams_complete2)
+summary(bnb_lm1) #for analyzing our estimates ourselves
 
 # Check for multicollinearity
 vif(bnb_lm1)
+#Conclusion: VIFs are all <10, all close to 1 (highest: oven, 3.87) = we can continue to interpret the model. 
 
 # Assumptions linear models
 
@@ -55,7 +54,8 @@ autoplot(bnb_lm1, which=1:3, nrow=1, ncol=3)
 
 ## 2 Homoscedasticity = equal variance across treatment groups (somewhat important)
 autoplot(bnb_lm1, which=1:3, nrow=1, ncol=3)
-# 3rd PLOT = error term should be the same across all values of the IVs; it shows the standarized residuals for all fitted values (does anything stand out?)
+# 3rd PLOT = error term should be the same across all values of the IVs; it shows the standardized residuals for all fitted values (does anything stand out?)
+#Conclusion: seems fine too, only some outliers (data plots that are much to the right)
 
 ## 2 Normality = Residuals are (approximately) normally distributed (but only affects standard errors when the sample size is small)
 bnb_res <-  augment(bnb_lm1)
@@ -66,15 +66,7 @@ plot(bnb_lm1)
 # Or use autoplot(): 
 autoplot(bnb_lm1, which=1:3, nrow=1, ncol=3)
 # 2nd PLOT = distribution of the residuals should look like a bell-shaped distribution (Gaussian distribution) such that the residuals are normally distributed. Data points in the QQ-plot need to be close to the diagonal.
-
-# Outlier screening =  using leverage and influence to identify outliers
-
-#high leverage = explanatory variables have values that are different from other points in the dataset (values with a very high/very low exploratory value)
-#influence = how much would a model change if each observation was left out of the model calculations, one at a time (how different the prediction line would look if you run a linear regression on all data points except that point, compared to running a linear regression on the whole dataset)
-leverage_influence<-bnb_lm1%>%augment()%>%
-  select(price, mean_review,bedrooms,beds, balcony, lake_access, waterfront, backyard, room_type, kitchen, wifi, bed_linens, tv, washer, heating, free_parking, breakfast, pool, superhost, greeting_host, crib, baby_safety_gates, fire_extinguisher, security_cameras, carbon_monoxide_alarm, leverage =.hat, cooks_dist = .cooksd)%>%
-  arrange(desc(cooks_dist))%>% head()
-leverage_influence
+#Conclusion: Normal distribution seems fine enough, data points close enough to diagonal (also: not a big worry if sample size is large). We can continue to interpret the model. 
 
 
 ## CHECKING ASSUMPTIONS FOR THE SECOND RESEARCH QUESTION LM ##

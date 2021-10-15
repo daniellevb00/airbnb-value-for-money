@@ -21,7 +21,7 @@ list_ams <- read.csv(gzfile('../../data/listings-amsterdam.csv.gz'))
 # 1. space attributes; 2. listing quality attributes; 3. common listing attributes; 4. extra listing attributes; 5. host quality attributes; 6. convenience attributes; 7. safety attributes
 
 #Filtering columns 
-cols_to_keep <- c('id', 'host_id', 'price', 'room_type', 'bedrooms', 'beds', 'amenities','number_of_reviews', 'review_scores_rating','review_scores_accuracy','review_scores_cleanliness','review_scores_checkin','review_scores_communication', 'review_scores_location', 'review_scores_value','reviews_per_month', 'license','host_listings_count','host_is_superhost','host_acceptance_rate','host_response_time','host_response_rate','instant_bookable')
+cols_to_keep <- c('id', 'host_id', 'price', 'room_type', 'bedrooms', 'beds', 'amenities','number_of_reviews', 'review_scores_rating','review_scores_accuracy','review_scores_cleanliness','review_scores_checkin','review_scores_communication', 'review_scores_location', 'review_scores_value', 'license','host_listings_count','host_is_superhost','host_acceptance_rate','host_response_time','host_response_rate','instant_bookable')
 df_ams1<-list_ams[,which(colnames(list_ams)%in%cols_to_keep)]
 colnames(df_ams1)
 
@@ -35,11 +35,10 @@ df_ams1 <- df_ams1 %>%
          rev_checkin = review_scores_checkin,
          rev_rating = review_scores_rating,
          n_reviews = number_of_reviews,
-         n_reviews_month = reviews_per_month,
          n_host_listings = host_listings_count,
          host_accept_rate = host_acceptance_rate,
          superhost = host_is_superhost)
-
+View(df_ams1)
 
 #Creating binary variables
 df_ams1$superhost<-ifelse(df_ams1$superhost=='t',1,0)
@@ -70,73 +69,59 @@ df_ams3<-df_ams2%>%select(-amenities)
 
 #IFELSE/GREPL: method for separating the amenity columns
 head(df_ams3$amenities_lower)
-#1. space attributes
-df_ams3$balcony<-ifelse(grepl('balcony',df_ams3$amenities_lower),1,0)
-df_ams3$lake_access<-ifelse(grepl('lakeaccess',df_ams3$amenities_lower),1,0)
-df_ams3$waterfront<-ifelse(grepl('waterfront',df_ams3$amenities_lower),1,0)
-df_ams3$private_entry<-ifelse(grepl('privateentrance',df_ams3$amenities_lower),1,0)
-df_ams3$workspace<-ifelse(grepl('workspace',df_ams3$amenities_lower),1,0)
-df_ams3$backyard<-ifelse(grepl('backyard',df_ams3$amenities_lower),1,0)
-df_ams3$beachfront<-ifelse(grepl('beachfront',df_ams3$amenities_lower),1,0)
+colnames(df_ams3)
+View(df_ams3)
 
-#2. listing attributes (already separated in existing dataset)
+#1. Space attributes
+#room_type
+df_ams3$waterfront<-ifelse(grepl('waterfront',df_ams3$amenities_lower),1,0) #waterfront
+df_ams3$balcony<-ifelse(grepl('balcony',df_ams3$amenities_lower),1,0) #balcony
 
-#3. common listing attributes 
+#2. Listing quality attributes 
+#n_reviews
+#mean_review
+#bedrooms
+#beds 
+
+#3. Common listing attributes 
 df_ams3$kitchen <- ifelse(grepl('kitchen', df_ams3$amenities_lower),1,0)
 df_ams3$oven<-ifelse(grepl('oven',df_ams3$amenities_lower),1,0)
-df_ams3$stove<-ifelse(grepl('stove',df_ams3$amenities_lower),1,0)
 df_ams3$wifi<-ifelse(grepl('wifi',df_ams3$amenities_lower),1,0)
-df_ams3$fridge<-ifelse(grepl('refrigerator',df_ams3$amenities_lower),1,0)
-df_ams3$iron<-ifelse(grepl('iron',df_ams3$amenities_lower),1,0)
-df_ams3$bed_linens<-ifelse(grepl('bedlinens',df_ams3$amenities_lower),1,0)
 df_ams3$tv<-ifelse(grepl('tv',df_ams3$amenities_lower),1,0)
-df_ams3$dryer<-ifelse(grepl('dryer',df_ams3$amenities_lower),1,0)
 df_ams3$coffee_maker<-ifelse(grepl('coffeemaker',df_ams3$amenities_lower),1,0)
 df_ams3$washer <- ifelse(grepl('washer', df_ams3$amenities_lower),1,0)
-df_ams3$microwave <- ifelse(grepl('microwave', df_ams3$amenities_lower),1,0)
-df_ams3$shampoo <- ifelse(grepl('shampoo', df_ams3$amenities_lower),1,0)
-df_ams3$hot_water <- ifelse(grepl('hotwater', df_ams3$amenities_lower),1,0)
-df_ams3$hangers <- ifelse(grepl('hangers', df_ams3$amenities_lower),1,0)
 df_ams3$dishwasher <- ifelse(grepl('dishwasher', df_ams3$amenities_lower),1,0)
-df_ams3$freezer <- ifelse(grepl('freezer', df_ams3$amenities_lower),1,0)
 
-#4. extra listing attributes
-df_ams3$heating<-ifelse(grepl('heating',df_ams3$amenities_lower),1,0)
+#4. Extra listing attributes
 df_ams3$free_parking<-ifelse(grepl('freeparking',df_ams3$amenities_lower),1,0)
-df_ams3$breakfast <- ifelse(grepl('breakfast', df_ams3$amenities_lower),1,0)
 df_ams3$fireplace <- ifelse(grepl('fireplace', df_ams3$amenities_lower),1,0)
-df_ams3$hair_dryer <- ifelse(grepl('hairdryer', df_ams3$amenities_lower),1,0)
-df_ams3$pool <- ifelse(grepl('pool', df_ams3$amenities_lower),1,0) #this one is difficult as we don't want to select pooltable or whirlpool refrigerator e.g... (find a smart way to do this)
-df_ams3$sauna <- ifelse(grepl('sauna', df_ams3$amenities_lower),1,0)
 df_ams3$hot_tub<-ifelse(grepl('hottub',df_ams3$amenities_lower),1,0)
 df_ams3$gym <- ifelse(grepl('gym', df_ams3$amenities_lower),1,0)
-df_ams3$bbq <- ifelse(grepl('bbq', df_ams3$amenities_lower),1,0)
 df_ams3$airco <- ifelse(grepl('airconditioning', df_ams3$amenities_lower),1,0)
 
-#5. host quality attributes
-df_ams3$greeting_host<-ifelse(grepl('hostgreetsyou',df_ams3$amenities_lower),1,0)
+#5. Host quality attributes
+df_ams3$greeting_host <- ifelse(grepl('hostgreetsyou', df_ams3$amenities_lower),1,0)
+#superhost
+#license
+#n_host_listings
+#instant_bookable
 
-#6. convenience attributes
+#6. Convenience attributes
 df_ams3$crib <- ifelse(grepl('crib', df_ams3$amenities_lower),1,0)
-df_ams3$high_chair <- ifelse(grepl('highchair', df_ams3$amenities_lower),1,0)
-df_ams3$pets_allow <- ifelse(grepl('petsallowed', df_ams3$amenities_lower),1,0) 
-df_ams3$elevator <- ifelse(grepl('elevator', df_ams3$amenities_lower),1,0) 
+df_ams3$luggage_dropoff <- ifelse(grepl('luggagedropoffallowed', df_ams3$amenities_lower),1,0) 
 df_ams3$single_level <- ifelse(grepl('singlelevelhome', df_ams3$amenities_lower),1,0) 
-df_ams3$baby_safety_gates <- ifelse(grepl('babysafetygates', df_ams3$amenities_lower),1,0) 
-df_ams3$baby_bath <- ifelse(grepl('babybath', df_ams3$amenities_lower),1,0)
 df_ams3$changing_table <- ifelse(grepl('changingtable', df_ams3$amenities_lower),1,0)
-df_ams3$baby_monitor <- ifelse(grepl('babymonitor', df_ams3$amenities_lower),1,0) 
 
-#7. safety attributes
+#7. Safety attributes
 df_ams3$fire_extinguisher<-ifelse(grepl('fireextinguisher',df_ams3$amenities_lower),1,0)
-df_ams3$smoke_alarm<-ifelse(grepl('smokealarm',df_ams3$amenities_lower),1,0)
 df_ams3$security_cameras<-ifelse(grepl('securitycameras',df_ams3$amenities_lower),1,0)
 df_ams3$carbon_monoxide_alarm<-ifelse(grepl('carbonmonoxidealarm',df_ams3$amenities_lower),1,0)
-df_ams3$smart_lock<-ifelse(grepl('smartlock',df_ams3$amenities_lower),1,0)
-df_ams3$first_aid <- ifelse(grepl('firstaidkit', df_ams3$amenities_lower),1,0)
+df_ams3$private_entry<-ifelse(grepl('privateentrance',df_ams3$amenities_lower),1,0)
+
 
 #after generating all necessary amenities columns we can remove the amenities_lower column for the dataset
 ams_amenities<-df_ams3%>%select(-amenities_lower)
+View(ams_amenities)
 
 #save as csv.file
 write.csv(ams_amenities, "../../gen/data-preparation/temp/ams_amenities.csv")
