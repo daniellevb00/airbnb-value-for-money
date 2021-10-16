@@ -14,7 +14,9 @@ _How do the different attribute features influence the listing price? And is the
 
 With Airbnb being the largest accommodation firm in the marketplace, enjoying a remarkable and flexible supply of listings and a record-breaking growth in the number of guests, the platform is recognized as a disruptor for the lodging industry. Aside from its many economic and financial benefits, the value of Airbnb listings is too perceived differently from that of traditional hotels. Namely, consumers engaging in the sharing economy seem to attach more value to the whole experience of their stay (the socialable aspect). The physical and non-physical attributes which are reflected on the price of Airbnb accommodations may play a crucial role on Airbnb guests' decision-making. Thus, the price of Airbnb properties is determined based on the value consumers place on the attributes of Airbnb accommodations. Therefore, examining the price determinants of the nightly listing price is crucial in understanding the factors that drive the growth of the sharing economy. 
 
-Moreover, it would be interesting the research the mean price-quality ratios for each listings relative to the amentiies its offers to observe whether consumers expectations of a listing of X price are close to being realistic (or whether they argue that the higher listing price is not justified). For instance, from previous research by Liang et al. (2017) we know that hosts awarded a superhost badge post their posts at higher prices, especially when they receive more reviews that are higher ratings: But do consumers too think that superhost actually provide better services? Or is the higher price for the superhost status not justified in terms of price/quality ratings?<img src = 'https://media.giphy.com/media/ZEqoYMLVJNCiEYUrpv/giphy.gif' width = '230' height ='250'/>
+Moreover, it would be interesting the research the mean price-quality ratios for each listings relative to the amentiies its offers to observe whether consumers expectations of a listing of X price are close to being realistic (or whether they argue that the higher listing price is not justified). For instance, from previous research by Liang et al. (2017) we know that hosts awarded a superhost badge post their posts at higher prices, especially when they receive more reviews that are higher ratings: But do consumers too think that superhost actually provide better services? Or is the higher price for the superhost status not justified in terms of price/quality ratings?
+
+<img src = 'https://media.giphy.com/media/ZEqoYMLVJNCiEYUrpv/giphy.gif' width = '230' height ='250'/>
 
 ## Method and results
 
@@ -24,17 +26,19 @@ We made use of OLS regression techniques to examine the price determinants of Ai
 
 Index | Category                   | Columns included
 ------|----------------------------|--------------------
-1     | Space attributes           | room type, dedicated workspace, beachfront, waterfront, backyard, patio/balcony, private entrance, lake access
+1     | Space attributes           | room type, waterfront, patio/balcony 
 2     | Listing quality attributes | number of reviews, mean review rating, bedrooms, beds
-3     | Common listing attributes  | kitchen, washer, dryer, wifi, TV, microwave, shampoo, iron, hot water, bed linens, coffee maker, refrigerator, hangers, stove, dishwasher, oven, freezer
-4     | Extra listing attributes   | indoor fireplace, hair dryer, heating, air conditioning, breakfast, pool, sauna, hot tub, gym, free parking, BBQ
-5     | Host quality attributes    | superhost, license, host listings count, host response rate, host response time, instant bookable, host greets you
-6     | Convenience attributes     | crib, high chair, pets allowed, elevator, single-level home, baby safety gates, baby bath, changing table, baby monitor, 
-7     | Safety attributes          | carbon monoxide alarm, smoke alarm, fire extinguisher, first-aid kit, smart lock, security cameras
+3     | Common listing attributes  | kitchen, washer, wifi, TV, coffee maker, dishwasher, oven
+4     | Extra listing attributes   | fireplace, air conditioning, hot tub, gym, free parking
+5     | Host quality attributes    | superhost, license, host listings count, instant bookable, host greets you
+6     | Convenience attributes     | crib, luggage_dropoff, single-level home, changing table
+7     | Safety attributes          | carbon monoxide alarm, fire extinguisher, security cameras, private entrance
 <p align="center">
   <img src = 'https://media.giphy.com/media/gHoJgcYgjalRxouMir/giphy.gif' width = '400' height = '220' /> 
   <img src = 'https://media.giphy.com/media/PjlpT8M92at7Jy2v5G/giphy.gif', width = '400' height = '220' />
 </p>
+
+For the second part of our research, we examined which amenities (and of which of the categories we identified) influence the consumers' rev_value (the rating for the price-quality ratio for the listing) the most. Namely, this would indicate what the concept 'quality' means to a consumer for a certain listing at a certain price. Are hosts focussing on the right amenities to offer to increase the satisfaction of their guests? or can they improve? Are the elements that for the host constitute or justify a higher price, the same as for the guests?
 
 ### Results 
 _Still need to be added_
