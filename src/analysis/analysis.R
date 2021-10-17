@@ -73,8 +73,10 @@ plot(bnb_lm1) #1st time we press enter, we get a scatter plot to show us whether
 autoplot(bnb_lm1, which=1:3, nrow=1, ncol=3) #from code snippet building blocks
 #left plot = the residuals and data points should center around the horizontal axis (such that the mean of the residuals is 0)
 # in our case, the blue line deviates from the horizontal axis a bit for very high fitted values, for smaller/middle range of fitted values the residuals seem to be fitted well on the horizontal axis (some observations that are quite far of the horizontal axis towards the end..)
+
 #middle plot = the residuals should be normally distributed approximately; the distribution of residuals should look like a bell-shaped distribution (Gaussian distribution). There data points in the QQ-plot need to be close to the diagonal. 
 # in our case, we see that on the right-side of the plot there are quite a few values that deviate from the diagonal..(we already identified this before too)
+
 #right plot = shows the standardized residuals for all fitted values. Homoscedasticity = the error term should be the same across all values of the IVs; so is there any pattern that stands out? 
 # in our case, relatively the blue line stays pretty flat when looking at the y-axis
 
