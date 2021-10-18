@@ -45,13 +45,11 @@ _Still need to be added_
 ## Repository overview 
 An overview of the directory structure and files: 
 * \data = stores the raw data files (unmodified). 
-* \data\legacy = stores old versions of data coded ourselves. 
 * \gen\data-preparation = stores any files generated in data-preparation.
 * \gen\analysis = stores any files generated during analysis. 
-* \gen\paper = stores any files generated for the paper. 
 * \src\data-preparation = stores any source code used for the data anlaysis. 
 * \src\analysis = stores any source code used for the analysis. 
-* \src\paper = stores any source code used for the paper. 
+* \paper = stores the final paper.
 
 ## Running instructions
 The datasets used for this project are available at [Inside AirBnB](http://insideairbnb.com/get-the-data.html).
