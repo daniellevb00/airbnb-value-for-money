@@ -84,26 +84,10 @@ X1,X2...,Xk = (non-) metric IV’s
 E.g., b0 represents the baseline price per night.. Therefore, the effects of the attributes space, listing quality, common listing, extra listing, host quality, convenience, and safety attributes on the nightly published rate of Airbnb listings in Amsterdam were analysed. Moreover, we examined how consumers’ perception of the price/quality ratio of a listing is established. Thus, we measure the effect of several variables on the ‘rev_value’ rating of consumers to examine, for example, which amenities (in which categories) contribute most to a higher rev_value rating by consumers. This could help Airbnb hosts in deciding which amenities they should offer if they are for instance limited on a budget, yet still try to accommodate its guests’ needs as closely as possible. 
 
 
-```{r, echo=FALSE, out.height='10%'}
-htmltools::includeHTML("../gen/analysis/model_report_airbnb.html")
-```
-
-```{r, echo=FALSE}
-htmltools::includeHTML("../gen/analysis/model_report_airbnb_pq.html")
-```
-
 ## 6. Results 
-The results of the first analysis in which we analyze the attribute factors on the nightly published rate of Airbnb listings are presented in Appendix B Table B.1. When analyzing these outputs, which are specifically for Amsterdam, we can conclude that many of the variables examined turned out to have a significant effect on the price. For the second part of the research question, we look at the variables which influence the price quality ratio (*i.e.*, rev_value) (Appendix B, Table B.2). For Amsterdam we can conclude mostly all variables have a significant positive or negative effect on the price-quality ratio. The variables are each discussed per category. 
+The results of the first analysis in which we analyze the attribute factors on the nightly published rate of Airbnb listings are presented in Appendix B __Table 2__ When analyzing these outputs, which are specifically for Amsterdam, we can conclude that many of the variables examined turned out to have a significant effect on the price. For the second part of the research question, we look at the variables which influence the price quality ratio (*i.e.*, rev_value) (Appendix B, __Table 3__). For Amsterdam we can conclude mostly all variables have a significant positive or negative effect on the price-quality ratio. The variables are each discussed per category. 
 
 ### 6.1 Analysis I
-The outcome of analysis is presented in __Table 2__
-
-__Table 2__ Regression Analysis I
-```{r, echo=FALSE, out.height='10%'}
-htmltools::includeHTML("../gen/analysis/model_report_airbnb.html")
-```
-
-
 #### 6.1.1 Space attributes
 For room_type, the baseline taken was ‘entire home’, which typically pertains to the largest listings. Therefore, hotel room, private room, and shared room all have a negative effect on the price (which are significant at p < 0.01). Next, for waterfront we observe a significant positive effect on the price (at p < 0.01). Contrarily, for balcony the negative effect is not significant, which means that we cannot draw any conclusions from these estimates. 
 
@@ -129,14 +113,6 @@ In brief, we may conclude that the category of safety attributes, i.e., for the 
 
 
 ### 6.2 Analysis II
-The outcome of analysis is presented in __Table 3__
-
-__Table 3__ Regression Analysis II
-```{r,echo=FALSE}
-htmltools::includeHTML("../gen/analysis/model_report_airbnb_pq.html")
-```
-
-
 #### 6.2.1 Space attributes
 Waterfront has a significant negative effect on the price-quality ratio (at p<0.05). Balcony on the other hand has a positive significant effect on the price-quality ratio (at p<0.01). This contrasts with the effect the variables have on the price in the analysis above. For the type of hotel room, the effect differs per type. Only Hotel room has a negative significant effect on the price-quality ratio (at p<0.05). The private room  and the shared room have a positive significant effect on the price-quality ratio (at p<0.05). This all contrasts with the effect the variables have on the price. 
 
@@ -170,6 +146,45 @@ In sum, this research aimed at comparing whether the attributes that show the st
 
 ## 8. Future Research
 This research has shown that not all effects from analysis I correspond to the effects of analysis II. However, some variables did correspond to each other. As for the further research it would be interesting to see whether the effects of these specific variables in analysis I and II actually correlate with each other. This would explain whether, for the matching variables only, a higher price correlates with a higher price-quality ratio.
+
+## 9. Appendices
+### Appendix A: References
+About us. (2021). Airbnb. Retrieved from https://news.airbnb.com/about-us/
+
+Airbnb (2020). The best amentities to offer right now: From wifi to a pet-driendly space, here’swhat 	guests care about most. Retrieved from https://www.airbnb.com/resources/hosting-	        homes/a/the-best-amenities-to-offer-right-now-203
+
+Alhamad, I. A., & Singh, H. P. (2021). Predicting Key Factors Impacting Online Hotel Ratings    Using	 Data Mining Approach. International Transaction Journal of Engineering, Management, 	    Applied Sciences, and Technology, 12(2). DOI: 10.14456/ITJEMAST.2021.35
+
+Chattopadhyay, M., & Mitra, S. K. (2019). Do airbnb host listing attributes influence room pricing 	homogenously?. International Journal of Hospitality Management, 81, 54-64. DOI: 	10.1016/j.ijhm.2019.03.008
+
+Chen, Y., & Xie, K. (2017). Consumer valuation of Airbnb listings: a hedonic pricing approach. 	International Journal of Contemporary Hospitality Management, 29(9), 2405–2424. 	Retrieved from https://doi.org/10.1108/ijchm-10-2016-0606
+
+Dogru, T., & Pekin, O. (2017). What do guests value most in Airbnb accommodations? An application 	of the hedonic pricing approach. Boston Hospitality Review, 5(2). Retrieved from 	https://www.researchgate.net/publication/317598245
+
+Ert, E., Fleischer, A. & Magen, N. (2016). Trust and Reputation in the Sharing Economy: The Role of 	Personal Photos on Airbnb, Tourism Management, 55, 62-73. Retrieved from http://dx.doi.org/10.1016/j.tourman.2016.01.013 
+
+Fang, B., Ye, Q., & Law, R. (2016). Effect of sharing economy on tourism industry 		employment. Annals of Tourism Research, Elsevier, 57(C), 264-267. DOI: 		10.1016/j.annals.2015.11.018 
+
+Katsumi, Y., et. al. (2017). When Nonverbal Greetings “Make It or Break It”: The Role of Ethnicity 	and Gender in the Effect of Handshake on Social Appraisals. Journal of Nonverbal Behavior,	 41, 345-365. Retrieved from https://doi.org/10.1007/s10919-017-0257-0
+
+Liang, S., Schuckert, M., Law, R., & Chen, C. (2017). Be a “Superhost”: The importance of badge 	systems for peer-to-peer rental accommodations. Tourism Management, 60, 454-465. 	Retrieved from http://dx.doi.org/10.1016/j.tourman.2017.01.007
+
+Nguyen, H. N. (2016). Customer value in Sharing economy: The case of Airbnb (Master's thesis).
+
+Reinhold, S., & Dolnicar, S. (2018). How Airbnb creates value. Peer-to-Peer Accommodation		Networks; Dolnicar, S., Ed, 39-53.
+Zhang, G., Cui, R., Cheng, M., Zhang, Q., & Li, Z. (2020). A comparison of key attributes between 	peer-to-peer accommodations and hotels using online reviews. Current Issues in 	Tourism, 23(5), 530-537. Retrieved from https://doi.org/10.1080/13683500.2019.1575339
+Zervas, G., Proserpio, D., & Byers, J. W. (2017). The Rise of the Sharing Economy: Estimating the 	Impact of Airbnb on the Hotel Industry. Journal of Marketing Research, 54(5), 687-705. 	Retrieved from https://doi.org/10.1509/jmr.15.0204
+
+### Appendix B: Results
+```{r, echo=FALSE, out.height='10%'}
+htmltools::includeHTML("../gen/analysis/model_report_airbnb.html")
+```
+
+ \ 
+ 
+```{r,echo=FALSE}
+htmltools::includeHTML("../gen/analysis/model_report_airbnb_pq.html")
+```
 
 
 
