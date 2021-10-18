@@ -36,7 +36,15 @@ Index | Category                   | Columns included
 For the second part of our research, we examined which amenities (and of which of the categories we identified) influence the consumers' rev_value (the rating for the price-quality ratio for the listing) the most. Namely, this would indicate what the concept 'quality' means to a consumer for a certain listing at a certain price. Are hosts focussing on the right amenities to offer to increase the satisfaction of their guests? or can they improve? Are the elements that for the host constitute or justify a higher price, the same as for the guests?
 
 ### Results 
-_Still need to be added_
+
+The results of this research have shown that accomodation attributes that present the strongest impacts on price, do not necessarily match the attributes with the strongest impacts on price-quality ratio. There is no category of attributes that seems to correspond to each other entirely. Solely for a few variables from different categories certain matches can be made. Therefore, the conclusion of this research is that the effects of the listing attributes on price do not correspond to the effects on price-quality ratio for Airbnb accomodations in Amsterdam.
+
+Some of the results in more depth:
+* For both analyses, certain space attributes of Airbnb listings present a negative effect on the dependent variable compared to the entire home accommodation type. However, contrary to analysis I (i.e. where the DV is price), in analyses II (i.e. where the DV is price-quality ratio) private rooms accommodation types have a positive effect compared to entire home accomodation types.
+* Whereas analysis I showed a slight negative effect of the number of reviews on price, analysis II shows a positive relationship between this independent variable and the price-quality ratio. 
+* The outcomes of the extra attributes category on price contrasts analysis II completely. In analysis II the fireplace and hot tub both appear to have a negative effect on the price-quality ratio, whereas free parking has a positive effect. For analysis I significant results signal precisely the opposite direction.
+
+
 
 ## Repository overview 
 An overview of the directory structure and files: 
