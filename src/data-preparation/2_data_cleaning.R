@@ -7,10 +7,8 @@ library(tidyverse)
 library(dplyr)
 library(ggplot2)
 library(readr)
-library(stringr)
 
 df_ams4 <- read.csv('../../gen/data-preparation/temp/ams_amenities.csv') 
-View(df_ams4)
 df_ams4 <- df_ams4[-1] #remove first column with indexes
 
 #Correcting datatypes
@@ -74,7 +72,6 @@ df_ams5<-df_ams4
 df_ams5<-df_ams5%>%filter(price != '0') 
 df_ams5<-df_ams5%>%filter(n_reviews !='0') #
 ams_amenities_dv<-df_ams5%>%filter(rev_rating != 0.00, rev_clean !=0.00, rev_accuracy !=0.00, rev_comm !=0.00, rev_location !=0.00,rev_value !=0.00) #when rev_rating = 0.00, all other ratings for all other categories were NA so this data isnt useable -> now the review columns don't contain NA values anymore either. 
-View(df_ams5)
 
 #Checking range constraints: do star ratings really fall between 1-5? 
 #rev_rating (p)

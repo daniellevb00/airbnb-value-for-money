@@ -1,0 +1,87 @@
+---
+title: "Assessing Airbnb Listings' Value-For-Money"
+author: "Anouk Bor, Danielle van Bruggen, Lesley Haerkens, Mandana Khabbazi, Mila Gargiulo"
+output:
+  pdf_document: default
+params: 
+  output_dir: "../../gen/paper"
+---
+
+
+# ODCM Team project - Team 3 - Assessing Airbnb listings' value-for-money 
+This document was copied from the word file for the paper as here we can apply versioning to the paper, such that we can see what others have changed.
+
+
+## The Influence of Various Attribute Features on the Price of Airbnb Listings, contrary to the Perceived Price-Quality Ratio by Customers: A Multiple Linear Regression Analysis. 
+
+### 1 Introduction 
+
+Airbnb is the perfect example of a platform that has arised as a result of the latest phenomenon, the sharing economy, being the largest accommodation firm in the marketplace with a remarkable volume of  XXX listings and a record-breaking growth in the number of guests. The platform allows its users to share their underutilized properties through its website with relatively lower transaction costs and usually at a lower rate compared to those of traditional businesses. Therefore, renting a place on the Airbnb site – both as a consumer and a supplier - is tied to many economic and financial benefits that have allowed the concept to grow tremendously in popularity over the last couple of years. However, it is not only its cost-saving benefits that participants of the sharing economy disclosed attracted them to using Airbnb, but also for its social benefits. The value of Airbnb listings is perceived differently from that of traditional hotels for instance, as consumers seem to attach more value to the whole experience of their stay and especially the friendliness, sociability, and trustworthiness of their host. Airbnb enjoys a competitive advantage over the traditional businesses as its supply dynamics are much more flexible than those of traditional accommodations, which forms a substantial threat. Therefore, the platform is recognized as a disruptor for the lodging industry. Researches found that a one percent increase in the number of Airbnb listings decreased hotel room revenue by 0.5% in Texas (Zervas, Byers, & Proserpio, 2017). On the other hand, the sharing economy seems to primarily provide positive economic benefits for the local communities and the tourism industry, as it generates new jobs and sources of income (Fang, Ye & Law 2015). 
+
+It now has become vital for the hotel industry to understand what drives consumers to book Airbnb accommodations, in order to develop strategies to compete with Airbnb. The physical (i.e., space, location, amenities, etc.) and non-physical (i.e., sociability, trustworthiness, friendliness, etc.) attributes, which are reflected on the price of the Airbnb accommodations, may play a crucial role on Airbnb guests’ decision making. Thus, the price of Airbnb properties is determined based on the value consumers place on the attributes of Airbnb accommodations. Therefore, examining the price determinants of Airbnb properties may play a crucial role in understanding the factors that drive the growth of the sharing economy based on accommodation services. 
+
+There have only been a few studies on investigating the pricing determinants of sharing economy-based services. These examined the effects of reviews, ratings, and host photos on the prices of Airbnb accommodations. As an example, hosts awarded a superhost badge – meaning they have a good standing and excellent service standards – post their properties at higher prices, especially when they receive more reviews are higher ratings (Liang, Schuckert, Law & Chen 2017). Moreover, guests seem to determine the trustworthiness of hosts from their photos and are wiling to book more expensive Airbnb properties if the hosts seem to be trustworthy. However, online reviews and ratings did not appear to have an effect on the listing price (Ert, Fleisher & Magen, 2015). This may be as on average Airbnb hosts have a rating of 4.5 out of 5, which is very extreme compared to hotel firms’ ratings (Zervas, Proserpio & Byers 2015). In general, factors related to the site and property characteristics, amenities, services, rental rules, and customer reviews significantly affect the prices of sharing economy-based accommodations. In particular, Airbnb listings that offer amenities such as real beds, Wi-Fi, and free parking had higher prices compared to who did not. 
+
+According to Airbnb themselves, they found that guests often filter their search results to find the top 10 amenities. Therefore, it is vital for hosts to include these amenities in their listings to increase bookings of their listings. The top 10 amenities as perceived by guests includes a pet-friendly space, wifi, free parking, pool, jacuzzi, kitchen, air conditioning, heating, washer, TV. Hosts should think about what amenities might appeal to different types of travellers, e.g. we may distinguish between families with kids (cribs, high chairs, baby gates, changing tables, baby monitors, outlet covers, kids’ cups and plates), pet parents, and remote workers (workspace, coffee maker) (Airbnb, 2020). 
+
+### 2 Method
+
+The data analysed was obtained by InsideAirbnb, which is an activist project with the objective to provide data that quantifies the impact of short-term rentals on housing and residential communities, and provides a platform to support advocacy for policies to protect our cities from the impacts of short-term rentals (InsideAirbnb, 2021). Airbnb listings with no reviews were removed from our analysis to provide more accurate estimates, as Airbnb listings with at least one review will be closer to the market equilibrium price. Similarly, we got rid of the listings where the listing price was zero. 
+
+For our analysis we classified the attributes of Airbnb accommodations – the non-metric independent variables of this study -  into 7 categories of amenities, for which we would like to measure its effect on the price. These categories include: 1) space attributes, 2) listing quality attributes, 3) common listing attributes, 4) extra attributes listings, 5) host quality attributes, 6) convenience attributes, 7) safety attributes. Space attributes include whether the listing is a private room, shared room, hotel room or entire home, and whether the accommodation has a balcony, backyard, waterfront, lake access, beach front, private entry, and a dedicated workspace. Moreover, there are several columns which define the quality of the listing, including the number of reviews, the mean review rating, and the number of beds and bedrooms. Then, we define the common listing attributes, which are attributes which are often present in the accommodations or expected by the consumer, such as kitchen, oven, stove, bed linens, washer, dishwasher etcetera. However, to enlarge the appeal of their listing, many hosts spice up their accommodation with some ‘extra’ – more special – attribute listings, including a fireplace, air conditioning, sauna, pool, hot tub, gym, or BBQ. As we discussed before, the social aspect of renting an Airbnb is also very important, therefore we included the host quality attributes, which include the number of listings by the owner, superhost status, their usual response time and rate, and whether they are licensed and greet their guests. Then, there are some convenience attributes potential consumers may be looking for – with a focus on specific target audiences – such as young families with children, the disabled or animal-lovers. Namely, they attach value to the presence of – among other things – a crib, high chair, elevator, baby monitor,  and whether pets are allowed and it is a single-level accommodation. Lastly, we will discuss the safety attributes, to really enjoy that stress-free vacation experience most users of the Airbnb platform are hoping for when they book their stay. These attributes include a fire extinguisher, security cameras, first aid kit, and carbon monoxide alarm; to make you prepared for anything! 
+
+The final sample consisted of XXX Airbnb properties that are available or booked on the moment we performed the analysis (11/2021). Table 1 presents the summary statistics of the dependent and independent variables used in this study, along with minimum and maximum values of these variables where applicable. 
+
+*add ‘Table 1: Summary statistics’ here*
+
+The dependent variable, the price (nightly room rate), averages $XXX in the city of Amsterdam and ranges anywhere between $XXX and $XXX. We classified the attributes of Airbnb accommodations – the independent variables of this study – into 7 categories. According to the results, XXX% and XXX% are entire homes and private rooms respectively, and XXX% and XXX% only shared rooms and hotel rooms respectively. Overall ratings of the listings varied widely between X and X, on average hosts receive an overall rating of XX. On average, listings had X reviews and X% of the listings was listed by a host with a superhost status. In general, a kitchen and laundry services are the amenities most commonly offered in an Airbnb property. X% and X% of the hosts offered access to a kitchen and the use of washer and dryer in Amsterdam respectively. The percentage of Airbnb hosts who offered free parking and free breakfast were about X% and X% respectively. 
+
+*Discuss these descriptives some more for each category, and maybe make it a little more interesting by drawing in sources?* 
+
+### 3 Analysis
+
+We examined the price determinants of Airbnb properties utilizing the ordinary least squares regression technique. In particular, we analysed the effects of space, listing quality, common listing attributes, extra listing attributes, host quality and safety factors on the nightly published rate of Airbnb listings in Amsterdam. 
+
+### 4 Results
+
+The results of the analysis of the attribute factors on the nightly published rate of Airbnb listings is presented by Table 2: 
+
+*insert ‘Table 2: Price Determinants of Airbnb accommodations’ * 
+
+We find that: …
+
+### 5 Discussion
+
+Although Airbnb guests might place more value on the sociability, trustworthiness and friendless of their Airbnb hosts and the experience, Airbnb guests are, to some extent economically motivated. They might be specifically comparing Airbnb and traditional hotels for cost-saving purposes. The results of research by Chen & Xie (2017) showed that Airbnb guests placed more value on space, cleanliness, free breakfast, location, and unique experiences. Based on this information, hotel firms might focus on these factors to attract guests from Airbnb’s consumer base. Airbnb guests would pay more for space and privacy, despite the conception that the sharing economy is a social platform where participants are motivated by potential social interactions. They pay less for properties that allow access to the kitchen, suggesting that these are regular apartments and houses and that Airbnb guests are not likely to pay extreme prices for staying in such properties. Guests pay more for more photos of the Airbnb properties, but they pay lower rates for Airbnb properties that seem to have commercial purposes. 
+
+### 6 Conclusion
+
+In conclusion, guests pay higher rates for ... 
+
+### 7 Reference list
+
+* Chen, Y., & Xie, K. (2017). Consumer valuation of Airbnb listings: a hedonic pricing approach. International Journal of Contemporary Hospitality Management, 29(9), 2405–2424. https://doi.org/10.1108/ijchm-10-2016-0606
+* Ert, Eyal and Fleischer, Aliza and Magen, Nathan, Trust and Reputation in the Sharing Economy: The Role of Personal Photos on Airbnb (January 2016). 
+* Fang, B., Ye, Q., & Law, R. (2016). Effect of sharing economy on tourism industry employment. 
+* Liang, S., Schuckert, M., Law, R., & Chen, C. (2017). Be a “Superhost”: The importance of badge systems for peer-to-peer rental accommodations. Tourism Management, 60, 454-465. http://dx.doi.org/10.1016/j.tourman.2017.01.007
+* Zervas, G., Proserpio, D., & Byers, J. W. (2017). The Rise of the Sharing Economy: Estimating the Impact of Airbnb on the Hotel Industry.  
+* The best amenities to offer right now - Resource Center (airbnb.com)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

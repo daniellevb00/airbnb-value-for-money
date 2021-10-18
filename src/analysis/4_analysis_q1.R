@@ -3,8 +3,6 @@
 #####################################
 
 ## RESEARCH QUESTION 1 = HOW DO THE DIFFERENT ATTRIBUTE FEATURES INFLUENCE THE LISTING PRICE? 
-setwd("C:/Users/danie/OneDrive/Documents/Repositories/dPREP-project-team-3/src/analysis") #try re-setting your wd if the data won't load! (it's probably the solution)
-
 # Loading packages
 library(tidyverse)
 library(dplyr)
@@ -16,12 +14,11 @@ library(ggfortify)
 library(stargazer)
 
 # Create directories
-dir.create('../../gen/analysis/output')
+dir.create('../../gen/analysis')
 
 # Load dataset
 ams_complete <- read.csv('../../gen/data-preparation/data/ams_complete.csv')
 ams_complete1 <- ams_complete[-1]
-View(ams_complete1)
 colnames(ams_complete1)
 
 # Select relevant columns
@@ -34,7 +31,7 @@ ams_complete2<-ams_complete1%>%select(id, host_id, price, #general information
                                      superhost, license, n_host_listings, instant_bookable, greeting_host, #host quality attributes
                                      crib, luggage_dropoff, single_level, changing_table, #convenience attributes
                                      private_entry, fire_extinguisher, security_cameras, carbon_monoxide_alarm) #safety attributes
-View(ams_complete2)
+
 
 ##1. Summary statistics
 summary(ams_complete2)
@@ -60,7 +57,6 @@ leverage_influence
 #Conclusion: for observation: n_host_listings=1992 the cooks_dist = 3.42, while for the second highest observation = 0.0721, therefore we need to remove this outlier
 ams_complete2%>%count(n_host_listings==1992) #we see that there's only one observation; but there are 2 NA's so: 
 ams_complete3<-ams_complete2%>%filter(n_host_listings!=1992 | is.na(n_host_listings))
-View(ams_complete3)
 ams_complete3<-ams_complete3[,-1]
 summary(ams_complete3)
 ams_complete%>%count(room_type)%>%summarize(perc=n/sum(n))
@@ -84,15 +80,6 @@ leverage_influence1
 #Conclusion: with the outliers removed, the cooks_dist now looks a lot better (and the estimates will be more accurate)
 
 ##4. Model reporting (for comparing models) = used for publication (for the paper); exports multiple model coefficients/fit statistics into a well-formatted HTML file that can be copy-pasted into Word (while still being editable)
-#in text format
-stargazer(bnb_lm1, bnb_lm2, 
-  title = 'Figure 1: Price determinants of Airbnb listings',
-  dep.var.caption = 'Price',
-  dep.var.labels= '',
-  column.labels = c('Full model', 'Outliers excluded'),
-  notes.label = 'Significance levels',
-  type = 'text',
-  out = 'model_report_airbnb.text')
 #in html format
 stargazer(bnb_lm1, bnb_lm2, 
           title = 'Figure 1: Price determinants of Airbnb listings',
@@ -101,7 +88,16 @@ stargazer(bnb_lm1, bnb_lm2,
           column.labels = c('Full model', 'Outliers excluded'),
           notes.label = 'Significance levels',
           type = 'html',
-          out = 'model_report_airbnb.html')
+          out = '../../gen/analysis/model_report_airbnb.html')
+
+stargazer(bnb_lm1, bnb_lm2, 
+          title = 'Figure 1: Price determinants of Airbnb listings',
+          dep.var.caption = 'Price',
+          dep.var.labels= '',
+          column.labels = c('Full model', 'Outliers excluded'),
+          notes.label = 'Significance levels',
+          type = 'text',
+          out = '../../gen/analysis/model_report_airbnb.text')
 
 ##4. Visualisations (for comparing models) = visualises most important relationships of the model to help the reader grasp the analysis
 #because we included multiple IV's in our model, I took one of them: license and looked at the differences in the relation in the full model and the model where the outliers are removed
@@ -170,14 +166,6 @@ ams_complete3%>%ggplot(aes(x=greeting_host,y=price)) +geom_point()
 price_hostgreeting <- ams_complete3%>%group_by(greeting_host)%>%summarize(meanprice=mean(price))
 price_hostgreeting
 price_hostgreeting%>%ggplot(aes(x=greeting_host,y=meanprice)) +geom_bar(stat='identity')
-
-
-## 5. Predicting 
-#(be careful with extrapolating outside the ranges of our data, but e.g. we want to know the stop distance of a car that drives 45, 50, 60 km per hour, then we can create a dataframe with these inputs and predict our linear model by plugging in these inputs into our regression equation.)
-
-## 6. Accessing certain coefficients
-bnb_lm1$coef[[2]] #selects estimate the 1st variable (its effect on the DV)
-#Report for each of the feature attributes of the categories the coefficient, t-statistic, significance (p-value), relative % (maybe also the general R2 statistic?)
 
 
 

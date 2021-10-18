@@ -13,7 +13,6 @@ library(stringr)
 dir.create('../../gen/data-preparation/data')
 
 df_ams5 <- read.csv('../../gen/data-preparation/temp/ams_amenities_dv.csv', as.is = TRUE) 
-View(df_ams5)
 df_ams5 <- df_ams5[-1] #remove first index column
 
 ## Data wrangling

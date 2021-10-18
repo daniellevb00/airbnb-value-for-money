@@ -11,6 +11,7 @@ library(stringr)
 
 # Create directories
 dir.create('../../gen')
+dir.create('../../gen/data-preparation')
 dir.create('../../gen/data-preparation/temp')
 
 ######### Analysis for Amsterdam ##########
@@ -38,7 +39,6 @@ df_ams1 <- df_ams1 %>%
          n_host_listings = host_listings_count,
          host_accept_rate = host_acceptance_rate,
          superhost = host_is_superhost)
-View(df_ams1)
 
 #Creating binary variables
 df_ams1$superhost<-ifelse(df_ams1$superhost=='t',1,0)
@@ -70,7 +70,6 @@ df_ams3<-df_ams2%>%select(-amenities)
 #IFELSE/GREPL: method for separating the amenity columns
 head(df_ams3$amenities_lower)
 colnames(df_ams3)
-View(df_ams3)
 
 #1. Space attributes
 #room_type
@@ -121,7 +120,6 @@ df_ams3$private_entry<-ifelse(grepl('privateentrance',df_ams3$amenities_lower),1
 
 #after generating all necessary amenities columns we can remove the amenities_lower column for the dataset
 ams_amenities<-df_ams3%>%select(-amenities_lower)
-View(ams_amenities)
 
 #save as csv.file
 write.csv(ams_amenities, "../../gen/data-preparation/temp/ams_amenities.csv")
