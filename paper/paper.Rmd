@@ -1,10 +1,12 @@
 ---
-title: "The Influence of Various Accommodation Attributes on the Price of Airbnb Listings Compared to the Perceived Price-Quality Ratio by Customers: A Multiple Linear Regression Analysis"
+title: The Influence of Various Accommodation Attributes on the Price of Airbnb Listings
+  Analysis
 author: "Anouk Bor, Danielle van Bruggen, Lesley Haerkens, Mandana Khabbazi, Mila Gargiulo"
+Compared to the Perceived Price-Quality Ratio by Customers: A Multiple Linear Regression
 output:
-  pdf_document: default
+  html_document:
+    df_print: paged
 ---
-
 
 ## 1. Introduction 
 Airbnb is the perfect example of a platform that has arisen as a result of the latest phenomenon, the sharing economy. Nowadays, Airbnb is the largest accommodation firm in the marketplace with a remarkable volume of 5.6 million active listings worldwide and a record-breaking growth in the number of guests (Airbnb, 2021). The platform allows its users to share their underutilized properties through its website with relatively lower transaction costs and usually at a lower rate compared to those of traditional businesses. Therefore, renting a place on the Airbnb site, both as a consumer and a supplier, is tied to many economic and financial benefits, which allowed the platform to grow tremendously in popularity over the last couple of years. However, it is not only its cost-saving benefits that attracted the participants to the use of Airbnb, but also the social benefits. The value of Airbnb listings is perceived differently from that of traditional hotels. For instance, consumers seem to attach more value to the whole experience of their stay and especially the friendliness, sociability, and trustworthiness of their host (Nguyen, 2016). Airbnb enjoys a competitive advantage over the traditional businesses as its supply dynamics are much more flexible than those of traditional accommodations. The flexibility of Airbnb forms therefore a substantial threat to the traditional businesses and is recognized as a disruptor for the lodging industry (Reinhold & Dolnicar, 2018). Researchers have found that a one percent increase in the number of Airbnb listings decreased hotel room revenue by 0.5% in Texas (Zervas, Byers, & Proserpio, 2017). On the other hand, the sharing economy seems to primarily provide positive economic benefits for the local communities and the tourism industry, as it generates new jobs and sources of income (Fang, Ye & Law 2015). 
@@ -130,7 +132,7 @@ In brief, we may conclude that the category of safety attributes, i.e., for the 
 The outcome of analysis is presented in __Table 3__
 
 __Table 3__ Regression Analysis II
-```{r, echo=FALSE}
+```{r,echo=FALSE}
 htmltools::includeHTML("../gen/analysis/model_report_airbnb_pq.html")
 ```
 

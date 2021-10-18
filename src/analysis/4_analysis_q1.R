@@ -82,7 +82,7 @@ leverage_influence1
 ##4. Model reporting (for comparing models) = used for publication (for the paper); exports multiple model coefficients/fit statistics into a well-formatted HTML file that can be copy-pasted into Word (while still being editable)
 #in html format
 stargazer(bnb_lm1, bnb_lm2, 
-          title = 'Figure 1: Price determinants of Airbnb listings',
+          title = 'Table 2: Price determinants of Airbnb listings',
           dep.var.caption = 'Price',
           dep.var.labels= '',
           column.labels = c('Full model', 'Outliers excluded'),
@@ -90,14 +90,6 @@ stargazer(bnb_lm1, bnb_lm2,
           type = 'html',
           out = '../../gen/analysis/model_report_airbnb.html')
 
-stargazer(bnb_lm1, bnb_lm2, 
-          title = 'Figure 1: Price determinants of Airbnb listings',
-          dep.var.caption = 'Price',
-          dep.var.labels= '',
-          column.labels = c('Full model', 'Outliers excluded'),
-          notes.label = 'Significance levels',
-          type = 'text',
-          out = '../../gen/analysis/model_report_airbnb.text')
 
 ##4. Visualisations (for comparing models) = visualises most important relationships of the model to help the reader grasp the analysis
 #because we included multiple IV's in our model, I took one of them: license and looked at the differences in the relation in the full model and the model where the outliers are removed

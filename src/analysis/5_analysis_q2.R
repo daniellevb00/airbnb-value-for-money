@@ -73,7 +73,7 @@ leverage_influence1
 
 ##4. Model reporting (for comparing models) = used for publication (for the paper); exports multiple model coefficients/fit statistics into a well-formatted HTML file that can be copy-pasted into Word (while still being editable)
 stargazer(bnb_lm_pq, bnb_lm_pq1, 
-          title = 'Figure 1: Determinants of consumers price-quality ratings of Airbnb listings',
+          title = 'Table 3: Determinants of consumers price-quality ratings of Airbnb listings',
           dep.var.caption = 'Price/quality ratio rating',
           dep.var.labels= '',
           column.labels = c('Full model', 'Outliers excluded'),
@@ -81,12 +81,4 @@ stargazer(bnb_lm_pq, bnb_lm_pq1,
           type = 'html',
           out = '../../gen/analysis/model_report_airbnb_pq.html')
 
-stargazer(bnb_lm_pq, bnb_lm_pq1, 
-          title = 'Figure 1: Determinants of consumers price-quality ratings of Airbnb listings',
-          dep.var.caption = 'Price/quality ratio rating',
-          dep.var.labels= '',
-          column.labels = c('Full model', 'Outliers excluded'),
-          notes.label = 'Significance levels',
-          type = 'text',
-          out = '../../gen/analysis/model_report_airbnb_pq.text')
 
