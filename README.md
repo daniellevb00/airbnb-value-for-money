@@ -1,14 +1,10 @@
+# Assessing price determinants of AirBnB listings and its reflection on consumers' price-quality ratings 
+_How do the different attribute features influence the listing price? And is the price rationalization well-reflected in consumers' ratings of the price-quality ratio (i.e., the perceived 'value of money')?_
+
 <p align = 'center' >
    <img src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_Bélo.svg/2560px-Airbnb_Logo_Bélo.svg.png' width = 640 height = 200 />
 </p>
 
-# Assessing price determinants of AirBnB listings and its reflection on consumers' price-quality ratings 
-_How do the different attribute features influence the listing price? And is the price rationalization well-reflected in consumers' ratings of the price-quality ratio (i.e., the perceived 'value of money')?_
-
-<p align="center">
-  <img src = 'https://media.giphy.com/media/TjkBNCMtRzPHGw6sGt/giphy.gif' width = '280' height = '300' /> 
-  <img src = 'https://media.giphy.com/media/gjUMaVJZh6o8gsD4Wb/giphy.gif', width = '300' height = '330' />
-</p>
 
 ## Motivation
 
@@ -16,7 +12,10 @@ With Airbnb being the largest accommodation firm in the marketplace, enjoying a 
 
 Moreover, it would be interesting the research the mean price-quality ratios for each listings relative to the amentiies its offers to observe whether consumers expectations of a listing of X price are close to being realistic (or whether they argue that the higher listing price is not justified). For instance, from previous research by Liang et al. (2017) we know that hosts awarded a superhost badge post their posts at higher prices, especially when they receive more reviews that are higher ratings: But do consumers too think that superhost actually provide better services? Or is the higher price for the superhost status not justified in terms of price/quality ratings?
 
-<img src = 'https://media.giphy.com/media/ZEqoYMLVJNCiEYUrpv/giphy.gif' width = '230' height ='250'/>
+<p align="center">
+  <img src = 'https://media.giphy.com/media/TjkBNCMtRzPHGw6sGt/giphy.gif' width = '280' height = '300' /> 
+  <img src = 'https://media.giphy.com/media/gjUMaVJZh6o8gsD4Wb/giphy.gif', width = '300' height = '330' />
+</p>
 
 ## Method and results
 
