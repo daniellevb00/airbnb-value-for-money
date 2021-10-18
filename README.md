@@ -1,14 +1,10 @@
+# Assessing price determinants of AirBnB listings and its reflection on consumers' price-quality ratings 
+_How do the different attribute features influence the listing price? And is the price rationalization well-reflected in consumers' ratings of the price-quality ratio (i.e., the perceived 'value of money')?_
+
 <p align = 'center' >
    <img src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_Bélo.svg/2560px-Airbnb_Logo_Bélo.svg.png' width = 640 height = 200 />
 </p>
 
-# Assessing price determinants of AirBnB listings and its reflection on consumers' price-quality ratings 
-_How do the different attribute features influence the listing price? And is the price rationalization well-reflected in consumers' ratings of the price-quality ratio (i.e., the perceived 'value of money')?_
-
-<p align="center">
-  <img src = 'https://media.giphy.com/media/TjkBNCMtRzPHGw6sGt/giphy.gif' width = '280' height = '300' /> 
-  <img src = 'https://media.giphy.com/media/gjUMaVJZh6o8gsD4Wb/giphy.gif', width = '300' height = '330' />
-</p>
 
 ## Motivation
 
@@ -16,7 +12,6 @@ With Airbnb being the largest accommodation firm in the marketplace, enjoying a 
 
 Moreover, it would be interesting the research the mean price-quality ratios for each listings relative to the amentiies its offers to observe whether consumers expectations of a listing of X price are close to being realistic (or whether they argue that the higher listing price is not justified). For instance, from previous research by Liang et al. (2017) we know that hosts awarded a superhost badge post their posts at higher prices, especially when they receive more reviews that are higher ratings: But do consumers too think that superhost actually provide better services? Or is the higher price for the superhost status not justified in terms of price/quality ratings?
 
-<img src = 'https://media.giphy.com/media/ZEqoYMLVJNCiEYUrpv/giphy.gif' width = '230' height ='250'/>
 
 ## Method and results
 
@@ -46,13 +41,11 @@ _Still need to be added_
 ## Repository overview 
 An overview of the directory structure and files: 
 * \data = stores the raw data files (unmodified). 
-* \data\legacy = stores old versions of data coded ourselves. 
 * \gen\data-preparation = stores any files generated in data-preparation.
 * \gen\analysis = stores any files generated during analysis. 
-* \gen\paper = stores any files generated for the paper. 
 * \src\data-preparation = stores any source code used for the data anlaysis. 
 * \src\analysis = stores any source code used for the analysis. 
-* \src\paper = stores any source code used for the paper. 
+* \paper = stores the final paper.
 
 ## Running instructions
 The datasets used for this project are available at [Inside AirBnB](http://insideairbnb.com/get-the-data.html).
